@@ -1,10 +1,18 @@
-version: '3'
+version: "3.9"
 services:
-  flask-app:
-    build: ./backend
-    ports:
-      - "5002:5000"
-  react-app:
-    build: ./frontend
-    ports:
-      - "3002:3000"
+  server:
+    build:  ./server
+    ports: 
+    - "5002:5000"
+    volumes: 
+    - ./server:/app
+    environment: 
+      FLASK_ENV: development
+  web:
+    build: ./client
+    ports: 
+      - "3000:3000"
+    volumes: 
+      - ./client:/user/src/app
+    depends_on: 
+      - server
