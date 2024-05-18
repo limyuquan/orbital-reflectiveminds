@@ -1,23 +1,18 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import {useState, useEffect} from 'react';
+import Dashboard from './components/dashboard/Dashboard'; // import your Dashboard component
 
 function App() {
-
-  const [initialState, setState] = useState([])
-  const url = "/api"
-  
-  useEffect(()=> {
-    fetch(url).then(response => {
-      if(response.status == 200){
-        return response.json()
-      }
-    }).then(data => setState(data))
-  }, [])
-
   return (
-    <div className="App">
-      {JSON.stringify(initialState)}
+    <div className="app">
+      <Router>
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </Router>
     </div>
+    
   );
 }
 
