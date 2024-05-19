@@ -1,70 +1,25 @@
-# Getting Started with Create React App
+# Reflective Minds Front-End Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This folder contains the front-end code for the Reflective Minds project. It is built using React, a popular JavaScript library for building user interfaces.
 
-## Available Scripts
+## Project Structure
 
-In the project directory, you can run:
+The project is structured as follows:
 
-### `npm start`
+- `App.js`: This is the main entry point of the application. It contains the router logic that determines which component to render based on the current path.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- `components/`: This directory contains all the React components used in the application. Each feature of the application (e.g., dashboard, entry, login) has its own subdirectory under `components/`.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    - `dashboard/`: This directory contains the components and CSS for the dashboard feature.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Each feature directory contains the following:
 
-### `npm run build`
+- `ComponentName.js`: This is the main component file for the feature. It contains the React component that renders the feature.
+- `ComponentName.css`: This is the CSS file for the feature. It contains the styles for the component.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Running the Front-End Client
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+You can use the docker instructions found in the main README to run both the frontend and backend locally
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The application will be available at http://localhost:3000
