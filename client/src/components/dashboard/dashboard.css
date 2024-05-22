@@ -65,6 +65,7 @@
   }
 
   .new-entry-btn {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,11 +122,17 @@
 }
 
 .entry {
+
     border: 1px solid #ddd; /* Subtle color */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Shadow */
     padding: 10px 30px 40px 30px;
     margin-bottom: 36px;
+    transition: transform 0.1s ease-in-out; /* Add this line */
+}
+
+.entry:hover {
+    transform: scale(1.01); /* Add this line */
 }
 
 .entry-text{
@@ -139,6 +146,7 @@
     letter-spacing: 0.5px;
 }
 .search-button i {
+    cursor: pointer;
     font-size: 24px;
     border-radius: 50%;
     background-color: rgb(225, 225, 225);
