@@ -9,11 +9,6 @@ function PreviousEntries() {
     getJournalEntries();
   }, []); // Add this useEffect hook
 
-  function addJournalEntry() {
-    const entry = getJournalEntries();
-    setEntries([...entries, entry]);
-  }
-
   function getJournalEntries() {
     // Replace this with a fetch call to the server
     fetch('/api/get-entries')

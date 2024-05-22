@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './dashboard.css';
 import PreviousEntries from './PreviousEntries'; // Import the PreviousEntries component
 import { useNavigate } from 'react-router-dom'; // Import the useHistory hook
