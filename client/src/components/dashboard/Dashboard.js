@@ -7,7 +7,7 @@ function Dashboard() {
     const navigate = useNavigate(); // Get the navigate function
 
     const handleNewEntryClick = () => {
-        navigate('/newEntry'); // Navigate to the newEntry page
+        navigate('/journalEntry'); // Navigate to the newEntry page
     };
 
   return (
