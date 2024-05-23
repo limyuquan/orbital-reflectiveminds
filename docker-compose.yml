@@ -8,6 +8,11 @@ services:
     - ./server:/app
     environment: 
       FLASK_ENV: development
+      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      
   web:
     build: ./client
     ports: 

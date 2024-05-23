@@ -26,18 +26,19 @@ const RegisterForm = (props) => {
     event.preventDefault();
     if (userState.newPassword.length < 8) {
       alert("Invalid password. Password must be at least 8 characters long.");
-      navigate("/register");
-      return;
     } else {
       axios
-        .post("http://localhost:8000/register", userState, {headers: {
-          'content-type': 'application/x-www-form-urlencoded'}})
-        .then(response => {
-          console.log(response)
-          if (response.data == '0') {
-            alert('This account exists!')
+        .post("/api/register", userState, {
+          headers: {
+            "content-type": "application/x-www-form-urlencoded",
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.data["status"] != "success") {
+            alert("This account exists!");
           } else {
-            navigate('/')
+            navigate("/login");
           }
         })
         .catch((error) => console.log(error));
