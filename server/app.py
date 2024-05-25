@@ -2,18 +2,18 @@ import os
 
 from flask import Flask, request
 from datetime import datetime
-from flask_mysqldb import MySQL
+from werkzeug.security import generate_password_hash, check_password_hash
 
+import mysql.connector as connector
 import json
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = os.environ.get('DATABASE_URL')
-app.config['MYSQL_USER'] = os.environ.get('DATABASE_USER')
-app.config['MYSQL_PASSWORD'] = os.environ.get('DATABASE_PASSWORD')
-app.config['MYSQL_DB'] = os.environ.get('DATABASE_NAME')
-
-mysql = MySQL(app)
+connection = connector.connect(host=os.environ.get('DATABASE_URL'), 
+                               user=os.environ.get('DATABASE_USER'),
+                               password=os.environ.get('DATABASE_PASSWORD'),
+                               database=os.environ.get('DATABASE_NAME')
+                               )
 
 @app.route('/api', methods=['GET'])
 def index():
@@ -60,41 +60,55 @@ def get_previous_journals():
 
 @app.route('/api/login', methods=['POST'])
 def login():
-   message = "success"
    data = json.loads(list(request.form.keys())[0])
    username = data.get('username')
    password = data.get("password")
+   userid = None
 
    if request.method == 'POST' and username is not None and password is not None:
-        cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM users WHERE username = %s AND password = %s', (username, password,))
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute('SELECT userId, username, password FROM users WHERE username = %s', (username,))
         account = cursor.fetchone()
-
         if account is None:
             message = "No account"
+        
+        elif check_password_hash(account['password'], password):
+            userid = account['userId']
+            message = "Success"
+
+        else:
+            message = "Fail"
+    
+   else:
+       message="Wrong HTTP method or Missing inputs"
 
    return {
-      "status": message
+      "status": message,
+      "userId": userid
    }
    
 @app.route('/api/register', methods=['POST'])
 def register():
-   message = "success"
    data = json.loads(list(request.form.keys())[0])
    username = data.get('newUsername')
    password = data.get("newPassword")
+   hashed_password = generate_password_hash(password)
    email = data.get("newEmail")
 
    if request.method == 'POST' and username is not None and password is not None and email is not None:
-        cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute('SELECT * FROM users WHERE username = %s AND password = %s AND email = %s', (username, hashed_password, email,))
         account = cursor.fetchone()
-        if account is not None:
-            message = "Account exists"
-        else:
-            cursor.execute("INSERT INTO users (email, password, username) VALUES (%s, %s, %s)", (email, password, username,))
-            mysql.connection.commit()
 
+        if account is not None:
+            message = "Account already exists"
+
+        else:
+            cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email,))
+            connection.commit()
+            message = "Success"
+   else:
+       message= "Wrong HTTP method used or missing inputs"
    return {
       "status": message
    }
