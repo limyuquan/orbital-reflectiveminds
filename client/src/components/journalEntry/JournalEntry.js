@@ -8,6 +8,7 @@ function JournalEntry() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [emotion, setEmotion] = useState('');
+    const [user_id, setUser_id] = useState(-1);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -49,12 +50,14 @@ function JournalEntry() {
         }
 
         const journalEntry = {
+            user_id: 2,
             title: title,
             content: content,
             emotion: emotion
         }
 
-        fetch('/api/submit-new-journal', {
+
+        fetch('/api/entry/submit-new-journal', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
