@@ -1,0 +1,93 @@
+.index {
+    width: 80%;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+.index-container{
+    margin-top: 150px;
+    width: 100%;
+
+}   
+
+.index-title{
+    display: inline-block;
+    font-size: 60px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+
+    margin: 100px 0 0cqh 0;
+}
+
+.index-secondary {
+    display: inline-block;
+    font-size: 28px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    margin: 40px 0;
+}
+
+.index-btn {
+    margin-top: 60px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: linear-gradient(60deg, rgb(66, 225, 249), rgb(113, 89, 193));
+    background-size: 300% 300%;
+    width: 600px;
+    height: 100px;
+    letter-spacing: 0px;
+    border-radius: 100px;
+    font-weight: 200;
+    font-size: 25px;
+    transition: transform 0.1s ease;
+    animation: GradientWave 3s ease infinite;
+    box-shadow: 0 8px 6px -2px rgba(0, 0, 0, 0.4);
+}
+
+.index-btn:hover {
+  transform: scale(1.01);
+}
+
+.index-btn:active {
+    transform: scale(0.99);
+  }
+
+  @keyframes GradientWave {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+
+  .journal-underline {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .journal-underline {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .journal-underline::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 4px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(60deg, rgb(66, 225, 249), rgb(113, 89, 193));
+    background-size: 300% 300%;
+    animation: underline 3.5s infinite;
+    
+  }
+  
+  @keyframes underline {
+    0% { width: 0; background-position: 0% 50%; }
+    50% { width: 100%; background-position: 100% 50%; }
+    100% { width: 0; background-position: 0% 50%;}
+  }
