@@ -35,7 +35,7 @@ const RegisterForm = (props) => {
         })
         .then((response) => {
           console.log(response);
-          if (response.data["status"] != "success") {
+          if (response.data["status"] != "Success") {
             alert("This account exists!");
           } else {
             navigate("/login");
