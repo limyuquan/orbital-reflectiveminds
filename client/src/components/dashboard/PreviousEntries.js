@@ -4,18 +4,31 @@ import SearchButton from './SearchButton';
 
 function PreviousEntries() {
   const [entries, setEntries] = useState([]);
+  const [search, setSearch] = useState('');
+  const [curPage, setCurPage] = useState(1);
+  const [maxPages, setMaxPages] = useState(1);
 
   useEffect(() => {
     getJournalEntries();
-  }, []); // Add this useEffect hook
+  }, [curPage]); // Add this useEffect hook
 
   function getJournalEntries() {
     // Replace this with a fetch call to the server
-    fetch('/api/get-entries')
+    const body = {
+      curPage: curPage,
+      user_id: 2
+    }
+    fetch('/api/dashboard/get-entries', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+      })
       .then(response => response.json())
       .then(data => {
-        const journalEntries = data.journals
-        setEntries(journalEntries);
+        setEntries(data.journals);
+        setMaxPages(data.maxPages);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -39,6 +52,12 @@ function PreviousEntries() {
             <b className="entry-date">{entry.date}</b>
           </div>
         ))}
+        {(entries.length === 0) && (<p>You haven't created any journal entries yet.</p>)}
+      </div>
+    
+      <div className="pagination-container">
+        {curPage !== 1 && <div className="pagination-btn" onClick={() => setCurPage(curPage - 1)}><i className="fas fa-arrow-left"/></div>}
+        {(curPage !== maxPages) && <div className="pagination-btn" onClick={() => setCurPage(curPage + 1)}><i className="fas fa-arrow-right"/></div>}
       </div>
     </div>
   );

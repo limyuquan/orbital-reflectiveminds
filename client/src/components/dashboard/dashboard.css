@@ -166,3 +166,28 @@
     outline: none;
     box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25);
   }
+
+  .pagination-container{
+    display: flex;
+    justify-content: right;
+    margin: 50px 0;
+  }
+
+  .pagination-btn {
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 15px;
+    font-size: 24px;
+    background-color: rgb(66, 225, 249);
+    padding: 5px 10px;
+    box-shadow: 0 0 1 0px rgba(0, 123, 255, 0.25);
+    transition: transform 0.3s ease;
+  }
+
+  .pagination-btn:hover {
+    transform: scale(1.10);
+  }
+
+  .pagination-btn:active {
+    transform: scale(0.86);
+  }
