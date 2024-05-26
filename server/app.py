@@ -28,7 +28,7 @@ app.register_blueprint(dashboard_routes, url_prefix='/api/dashboard')
 connection = connector.connect(host=os.environ.get('DATABASE_URL'), 
                                user=os.environ.get('DATABASE_USER'),
                                password=os.environ.get('DATABASE_PASSWORD'),
-                               database=os.environ.get('DATABASE_NAME')
+                               database=os.environ.get('DATABASE_NAME'))
                                
 
 @app.route('/api', methods=['GET'])

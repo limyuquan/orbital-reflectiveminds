@@ -4,8 +4,8 @@ import './App.css';
 import Dashboard from './components/dashboard/Dashboard'; // import your Dashboard component
 import JournalEntry from './components/journalEntry/JournalEntry'; // import your JournalEntry component]
 import Index from './components/index/Index';
-import JournalEntry from './components/journalEntry/JournalEntry'; // import your JournalEntry component
-
+import LoginForm from './components/loginform/LoginForm';
+import RegisterForm from './components/loginform/RegisterForm';
 
 function App() {
   return (
@@ -15,6 +15,8 @@ function App() {
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/journalEntry" element={<JournalEntry />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
         </Routes>
       </Router>
     </div>

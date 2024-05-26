@@ -1,6 +1,5 @@
 Flask
 flask_cors
 flask_mysqldb
-mysqlclient>=2.2.0
-mysql-connector-python==8.0.26
-werkzeug==2.0.3
+mysql-connector-python
+werkzeug
