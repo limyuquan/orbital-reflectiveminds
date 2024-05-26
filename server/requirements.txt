@@ -1,5 +1,4 @@
 Flask
 flask_cors
 flask_mysqldb
-mysql-connector-python
 werkzeug
