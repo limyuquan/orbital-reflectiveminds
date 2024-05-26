@@ -15,7 +15,6 @@ def test():
 
 @entry_routes.route('/submit-new-journal', methods=['POST'])
 def submit_new_journal():
-    print(os.environ.get('DATABASE_URL'))
     data = request.get_json()
     user_id = data['user_id']
     title = data['title']
