@@ -22,7 +22,7 @@ const LoginForm = (props) => {
     event.preventDefault();
     axios
       .post(
-        "/api/login",
+        "/api/auth/login",
         {
           username: userState.username,
           password: userState.password,
