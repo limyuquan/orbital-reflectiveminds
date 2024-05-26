@@ -46,7 +46,7 @@ const RegisterForm = (props) => {
   };
 
   return (
-    <div className="wrapper">
+    <div className="register">
       <form id="register-form" onSubmit={handleRegisterButton}>
         <h1>Create account</h1>
 

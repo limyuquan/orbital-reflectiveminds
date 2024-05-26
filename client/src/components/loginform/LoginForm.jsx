@@ -46,11 +46,11 @@ const LoginForm = (props) => {
   };
 
   return (
-    <div className="wrapper">
-      <form action="" onSubmit={handleLoginButton}>
-        <h1>Login</h1>
+    <div className="login">
+      <form className="login-form" action="" onSubmit={handleLoginButton}>
+        <h1 className="title">Login</h1>
         <div className="input-box">
-          <FaUserLarge className="icon1" />
+          <FaUserLarge className="icon icon1" />
           <input
             type="text"
             placeholder="Username"
@@ -62,7 +62,7 @@ const LoginForm = (props) => {
         </div>
 
         <div className="input-box">
-          <FaLock className="icon2" />
+          <FaLock className="icon icon2" />
           <input
             type="password"
             placeholder="Password"
@@ -72,24 +72,20 @@ const LoginForm = (props) => {
             name="password"
           />
         </div>
-
-        <div className="remember-me">
-          <label>
-            <input type="checkbox" /> Remember me
-          </label>
-        </div>
-
+         
+         <div className="button-wrapper">
         <button type="submit" className="button">
           Login
         </button>
-      </form>
+        </div>
 
-      <div className="register-link">
+        <div className="register-link">
         <p>
           Don't have an account?
-          <Link to="/register"> Click here </Link>
+          <Link className="click-here" to="/register"> Click here </Link>
         </p>
       </div>
+      </form>
     </div>
   );
 };
