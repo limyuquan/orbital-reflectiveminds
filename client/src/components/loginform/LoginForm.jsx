@@ -37,8 +37,7 @@ const LoginForm = (props) => {
         if (response.data["status"] != "Success") {
           alert("Account does not exist! Incorrect username or password!");
         } else {
-          console.log(response.data)
-          navigate("/dashboard");
+          navigate("/dashboard", { state: { userId: response.data.userId } });
         }
       })
       .catch((error) => console.log(error));

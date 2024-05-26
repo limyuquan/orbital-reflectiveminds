@@ -2,8 +2,7 @@
     width: 80%;
     margin: 0 auto;
     font-family: 'Roboto', sans-serif;
-    display: flex;
-    justify-content: center;
+    
 }
 
 .index-container{
@@ -13,7 +12,6 @@
 }   
 
 .index-title{
-    display: inline-block;
     font-size: 60px;
     font-weight: 700;
     letter-spacing: 0.5px;
@@ -22,7 +20,6 @@
 }
 
 .index-secondary {
-    display: inline-block;
     font-size: 28px;
     font-weight: 200;
     letter-spacing: 1px;
@@ -83,7 +80,6 @@
     background: linear-gradient(60deg, rgb(66, 225, 249), rgb(113, 89, 193));
     background-size: 300% 300%;
     animation: underline 3.5s infinite;
-    
   }
   
   @keyframes underline {
