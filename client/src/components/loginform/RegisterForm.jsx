@@ -26,7 +26,7 @@ const RegisterForm = (props) => {
       alert("Invalid password. Password must be at least 8 characters long.");
     } else {
       axios
-        .post("/api/register", userState, {
+        .post("/api/auth/register", userState, {
           headers: {
             "content-type": "application/x-www-form-urlencoded",
           },
