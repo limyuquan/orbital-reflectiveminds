@@ -4,6 +4,8 @@ import './App.css';
 import Dashboard from './components/dashboard/Dashboard'; // import your Dashboard component
 import JournalEntry from './components/journalEntry/JournalEntry'; // import your JournalEntry component]
 import Index from './components/index/Index';
+import JournalEntry from './components/journalEntry/JournalEntry'; // import your JournalEntry component
+
 
 function App() {
   return (
