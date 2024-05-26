@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './dashboard.css';
 import SearchButton from './SearchButton';
 
-function PreviousEntries() {
+function PreviousEntries({userId}) {
   const [entries, setEntries] = useState([]);
   const [search, setSearch] = useState('');
   const [curPage, setCurPage] = useState(1);
   const [maxPages, setMaxPages] = useState(1);
+  
 
   useEffect(() => {
     getJournalEntries();
@@ -16,7 +17,7 @@ function PreviousEntries() {
     // Replace this with a fetch call to the server
     const body = {
       curPage: curPage,
-      user_id: 2
+      user_id: userId,
     }
     fetch('/api/dashboard/get-entries', {
       method: 'POST',

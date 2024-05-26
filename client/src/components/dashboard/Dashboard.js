@@ -1,14 +1,24 @@
-import React from 'react';
+import {React, useEffect} from 'react';
 import './dashboard.css';
 import PreviousEntries from './PreviousEntries'; // Import the PreviousEntries component
-import { useNavigate } from 'react-router-dom'; // Import the useHistory hook
+import { useNavigate, useLocation } from 'react-router-dom'; // Import the useHistory hook
 
 function Dashboard() {
+    const location = useLocation();
     const navigate = useNavigate(); // Get the navigate function
+    const userId = location.state?.userId || null;
+
+    useEffect(() => {
+      if (userId === null) {
+        navigate('/login');
+      }
+    }, [userId, navigate]); // Add userId and navigate as dependencies
 
     const handleNewEntryClick = () => {
-        navigate('/journalEntry'); // Navigate to the newEntry page
+        navigate('/journalEntry', { state: { userId: userId} }); // Navigate to the newEntry page
     };
+
+    
 
   return (
     <div className="dashboard">
@@ -24,7 +34,7 @@ function Dashboard() {
                 <p>New Entry</p>
             </div>
         </div>
-        <PreviousEntries/> 
+        <PreviousEntries userId={userId}/> 
       </div>
     </div>
   );

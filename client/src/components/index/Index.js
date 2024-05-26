@@ -14,7 +14,7 @@ function Index() {
         <div className="index-container">
             <div className="index-title">Your Personal Growth <span className="journal-underline">Journal</span></div>
             <h3 className="index-secondary">A minimal online journaling app with daily prompts and powerful guides to help you grow into your best self.</h3>
-            <div className="index-btn" onClick={ () => {navigate('/dashboard')}}>Start Your Journal Journey Today</div>
+            <div className="index-btn" onClick={ () => {navigate('/login')}}>Start Your Journal Journey Today</div>
         </div>
 
     </div>

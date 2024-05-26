@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './journalEntry.css';
-import { useNavigate } from 'react-router-dom'; // Import the useHistory hook
+import { useNavigate, useLocation } from 'react-router-dom'; // Import the useHistory hook
 
 function JournalEntry() {
     const navigate = useNavigate();
 
+    const location = useLocation();
+    const userId = location.state?.userId || null;
+
+    useEffect(() => {
+        if (userId === null) {
+            navigate('/login');
+        }
+    }, [userId, navigate]);
+
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [emotion, setEmotion] = useState('');
-    const [user_id, setUser_id] = useState(-1);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -29,7 +37,7 @@ function JournalEntry() {
     }
 
     const handleReturnDashboard = () => {
-        navigate('/dashboard');
+        navigate('/dashboard', { state: { userId: userId } });
     }
 
     const handleSubmit = (e) => {
@@ -50,7 +58,7 @@ function JournalEntry() {
         }
 
         const journalEntry = {
-            user_id: 2,
+            user_id: userId,
             title: title,
             content: content,
             emotion: emotion
@@ -66,7 +74,7 @@ function JournalEntry() {
         }).then(() => {
             resetFields();
             alert('Journal entry created successfully!');
-            navigate('/dashboard')
+            navigate('/dashboard', { state: { userId: userId } });
         }
         ).catch((error) => {
             console.error('Error:', error);
