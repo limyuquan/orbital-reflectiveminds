@@ -47,11 +47,9 @@ const RegisterForm = (props) => {
 
   return (
     <div className="register">
-      <form id="register-form" onSubmit={handleRegisterButton}>
-        <h1>Create account</h1>
-
-        <div className="input-box">
-          <FaUserLarge className="icon1" />
+      <form className="register-form" onSubmit={handleRegisterButton}>
+        <h1 className="title">Register</h1>
+        <div className="register-input-box">
           <input
             type="text"
             placeholder="Username"
@@ -62,8 +60,7 @@ const RegisterForm = (props) => {
           />
         </div>
 
-        <div className="input-box">
-          <MdEmail className="icon2" />
+        <div className="register-input-box">
           <input
             type="email"
             placeholder="Email"
@@ -74,8 +71,7 @@ const RegisterForm = (props) => {
           />
         </div>
 
-        <div className="input-box">
-          <FaLock className="icon3" />
+        <div className="register-input-box">
           <input
             type="password"
             placeholder="Password"
@@ -86,14 +82,16 @@ const RegisterForm = (props) => {
           />
         </div>
 
-        <button type="submit" className="button">
-          Register
+        <div className="register-button-wrapper"> 
+        <button type="submit" className="register-button">
+          Create account
         </button>
-      </form>
+        </div>
 
-      <button type="submit" className="back" onClick={() => navigate(-1)}>
+        <button type="submit" className="back" onClick={() => navigate(-1)}>
         Back
       </button>
+      </form>
     </div>
   );
 };

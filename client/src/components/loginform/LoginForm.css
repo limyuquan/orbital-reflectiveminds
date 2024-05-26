@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+}
+
+.login-form {
+    width: 420px;
+    height: 450px;
+    border: 1px solid #ddd; /* Subtle color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);    
+}
+
+.title {
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
+    font-weight: 700;
+    font-size: 70px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.login-input-box {
+    display: flex;
+    width: 100%;
+    margin: 10px 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-input-box input {
+    outline: none;
+    border-radius: 40px;
+    border-style: none;    
+    border: 2px solid rgb(15, 15, 15);
+    width:60%;
+    font-size: 12px;
+    padding: 10px 45px 10px 15px;
+    color: black;
+}
+
+.login-input-box input::placeholder {
+    color: black;
+}
+
+.login-button-wrapper {
+    position: relative;
+}
+
+.login-button {
+    background: white;
+    width: 70%;
+    height: 45px;
+    margin-top: 45px;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    color: #333;
+    font-weight: 600;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+}
+
+.register-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin-top: 3.5cm;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
+}
+
+.click-here {
+    text-decoration: none;
+    color: black;
+}

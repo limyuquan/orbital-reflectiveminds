@@ -49,8 +49,7 @@ const LoginForm = (props) => {
     <div className="login">
       <form className="login-form" action="" onSubmit={handleLoginButton}>
         <h1 className="title">Login</h1>
-        <div className="input-box">
-          <FaUserLarge className="icon icon1" />
+        <div className="login-input-box">
           <input
             type="text"
             placeholder="Username"
@@ -61,8 +60,7 @@ const LoginForm = (props) => {
           />
         </div>
 
-        <div className="input-box">
-          <FaLock className="icon icon2" />
+        <div className="login-input-box">
           <input
             type="password"
             placeholder="Password"
@@ -73,8 +71,8 @@ const LoginForm = (props) => {
           />
         </div>
          
-         <div className="button-wrapper">
-        <button type="submit" className="button">
+        <div className="login-button-wrapper">
+        <button type="submit" className="login-button">
           Login
         </button>
         </div>

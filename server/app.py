@@ -97,10 +97,10 @@ def register():
 
    if request.method == 'POST' and username is not None and password is not None and email is not None:
         cursor = connection.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM users WHERE username = %s AND password = %s AND email = %s', (username, hashed_password, email,))
+        cursor.execute('SELECT * FROM users WHERE username = %s AND email = %s', (username, email,))
         account = cursor.fetchone()
-
-        if account is not None:
+        
+        if account is not None: 
             message = "Account already exists"
 
         else:
