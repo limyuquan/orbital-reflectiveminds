@@ -3,7 +3,6 @@ import "./RegisterForm.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
 const RegisterForm = (props) => {
   const navigate = useNavigate();
 
@@ -34,7 +33,7 @@ const RegisterForm = (props) => {
         .then((response) => {
           console.log(response);
           if (response.data["status"] != "Success") {
-            alert("This account exists!");
+            alert("This account exists! Username or email is already in use!");
           } else {
             navigate("/login");
           }
@@ -80,15 +79,17 @@ const RegisterForm = (props) => {
           />
         </div>
 
-        <div className="register-button-wrapper"> 
-        <button type="submit" className="register-button">
-          Create account
-        </button>
+        <div className="register-button-wrapper">
+          <button type="submit" className="register-button">
+            Create account
+          </button>
         </div>
 
+        <div className="back-button-wrapper"> 
         <button type="submit" className="back" onClick={() => navigate(-1)}>
-        Back
-      </button>
+          Back
+        </button>
+        </div>
       </form>
     </div>
   );
