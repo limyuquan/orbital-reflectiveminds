@@ -50,7 +50,7 @@ def register():
 
     if request.method == 'POST' and username is not None and password is not None and email is not None:
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM users WHERE username = %s AND email = %s', (username, email,))
+        cur.execute('SELECT * FROM users WHERE username = %s OR email = %s', (username, email,))
         account = cur.fetchone()
         
         if account is not None: 
