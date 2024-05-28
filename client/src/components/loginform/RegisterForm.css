@@ -55,33 +55,66 @@
 
 .register-button-wrapper {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .register-button {
     background: white;
     width: 70%;
     height: 45px;
-    margin-top: 45px;
+    margin-top: 10px;
     border: none;
     outline: none;
     border-radius: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-size: 16px;
-    color: #333;
+    color: white;
     font-weight: 600;
     left: 50%;
-    transform: translateX(-50%);
-    position: absolute;
+    background: linear-gradient(60deg, rgb(66, 225, 249), rgb(113, 89, 193));
+    animation: GradientWave 3s ease infinite;
+    transition: transform 0.1s ease;
+    bottom: 1cm;
+}
+
+@keyframes GradientWave {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+
+.register-button:hover {
+    transform: scale(1.01);
+}
+
+.register-button:active {
+    transform: scale(0.99);
 }
 
 .back {
     background-color: white;
     color: black;
     padding: 3px 12px;
-    font-size: 10px;
+    font-size: 14.5px;
     border: none;
     border-radius: 15%;
     border: 1px solid #ddd;
-    margin-top: 5px;
-    margin-left: 56px;
+    margin-top: 24px;
+    margin-bottom: 1cm;
+}
+
+.back-button-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.back:hover {
+    transform: scale(1.1);
+}
+
+.back:active {
+    transform: scale(0.99);
 }
