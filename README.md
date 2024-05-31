@@ -1,7 +1,6 @@
 # ReflectiveMinds
 
 ## Prerequisites
-test
 Before you begin, ensure you have met the following requirements:
 
 * You have installed Docker and Docker Compose. If not, you can download them [here](https://www.docker.com/products/docker-desktop).
