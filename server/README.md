@@ -6,4 +6,8 @@ This is the backend of our Web App.
 2. ```app.py``` is the file that initialises the processes handled by the backend.
    
    It initialises our Flask application, sets up our connection to our MySQL database via environment variables that are kept private and lastly sets up blueprints for different route folders, preventing ```app.py``` from clustering. More details about routes can be found in ```routes```.
-   
+
+
+You can use the docker instructions found in the main README to run both the frontend and backend locally
+
+The application will be available at http://localhost:5002
