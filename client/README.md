@@ -4,7 +4,7 @@ This folder contains the front-end code for the Reflective Minds project. It is 
 
 ## Project Structure
 
-The project is structured as follows:
+In the src folder, the project is structured as follows:
 
 - `App.js`: This is the main entry point of the application. It contains the router logic that determines which component to render based on the current path.
 
