@@ -2,6 +2,8 @@
 
 This contains python files, each containing API endpoints for different parts of our web app.
 
+## Strucutre
+
 "Routes" folder has
 
 1. Dashboard.
