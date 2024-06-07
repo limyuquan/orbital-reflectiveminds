@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './journalEntry.css';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import the useHistory hook
+import EmotionMenu from './EmotionComponent/EmotionMenu';
 
 function JournalEntry() {
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ function JournalEntry() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [emotion, setEmotion] = useState('');
+    const [emotionMenu, setEmotionMenu] = useState(false);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -26,9 +28,13 @@ function JournalEntry() {
         setContent(event.target.value);
     };
 
-    const handleEmotionChange = (event) => {
-        setEmotion(event.target.value);
+    const handleEmotionChange = (feeling) => {  //changed from event to feeling, using event causes runtime errors when passed into child component EmotionMenu
+        setEmotion(feeling);
     };
+
+    const showEmotionMenu = (event) => {
+        setEmotionMenu(!emotionMenu);
+    }
 
     const resetFields = () => {
         setTitle('');
@@ -42,7 +48,7 @@ function JournalEntry() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!title.trim() ) {
+        if (!title.trim()) {
             alert('Both title and content must be filled out.');
             return;
         }
@@ -90,33 +96,50 @@ function JournalEntry() {
 
                 <form id="paper" method="get" action="">
                     <div className="new-journal-header">
-                        <div id="margin">Title: 
-                            <input id="title" type="text" name="title" value={title} onChange={handleTitleChange}/>
+                        <div id="margin">Title:
+                            <input id="title" type="text" name="title" value={title} onChange={handleTitleChange} />
                         </div>
-                        <div id="margin">Emotion: 
-                            <input id="title" className="emotion" type="text" name="title" value={emotion} onChange={handleEmotionChange}/>
+
+                        <div id="margin">Emotion:
                         </div>
+
+                        <div className='emotion-button'>
+                            {!emotionMenu && (<button className='choose-emotion-button' onClick={showEmotionMenu}>
+                                {emotion || `Choose emotions`}
+                                </button>)}
+                            {emotionMenu && (<button className='hide-emotion-button' onClick={showEmotionMenu}>
+                                {emotion || `Hide emotions`}
+                                </button>)}
+                        </div>
+
+                        {emotionMenu &&
+                            (<div>
+                                <h1 className='emotion-menu'>{<EmotionMenu handleEmotionChange={handleEmotionChange} />}</h1>
+                            </div>)
+                        }
                     </div>
-                    
+
+
+
                     <textarea placeholder="What's on your mind today?" id="text" name="text" rows="10"
                         value={content}
                         onChange={handleContentChange}
                         style={{
-                            outline:"none",
-                            border:"none",
-                            overflow: 'auto', 
-                            wordWrap: 'break-word', 
-                            resize: 'none', 
+                            outline: "none",
+                            border: "none",
+                            overflow: 'auto',
+                            wordWrap: 'break-word',
+                            resize: 'none',
                             height: '700px',
                             width: '510px'
                         }}>
-                    </textarea>  
-                    <br/>
-                    <input id="button" type="submit" value="Create" onClick={handleSubmit}/>
+                    </textarea>
+                    <br />
+                    <input id="button" type="submit" value="Create" onClick={handleSubmit} />
                 </form>
 
             </div>
-           
+
         </div>
     );
 }
