@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Loader from "../shared/loader";
+
 
 const LoginForm = (props) => {
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ const LoginForm = (props) => {
   };
 
   const [userState, setUserState] = useState(user);
+  const [showLoader, setShowLoader] = useState(false);
 
   const handleInputChange = (e) => {
     setUserState({ ...userState, [e.target.name]: e.target.value });
@@ -21,6 +24,7 @@ const LoginForm = (props) => {
   const handleLoginButton = async (event) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     event.preventDefault();
+    setShowLoader(true);
     axios
       .post(
         `${apiUrl}/api/auth/login`,
@@ -40,12 +44,18 @@ const LoginForm = (props) => {
         } else {
           navigate("/dashboard", { state: { userId: response.data.userId } });
         }
+        setShowLoader(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        alert("Error encountered");
+        setShowLoader(false);
+      });
   };
 
   return (
     <div className="login">
+      {showLoader && <Loader />}
       <form className="login-form" action="" onSubmit={handleLoginButton}>
         <h1 className="title">Login</h1>
         <div className="login-input-box">
