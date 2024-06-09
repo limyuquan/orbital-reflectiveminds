@@ -19,10 +19,11 @@ const LoginForm = (props) => {
 
   //log in success => go dashboard, log in fail => alert fail
   const handleLoginButton = async (event) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     event.preventDefault();
     axios
       .post(
-        "/api/auth/login",
+        `${apiUrl}/api/auth/login`,
         {
           username: userState.username,
           password: userState.password,

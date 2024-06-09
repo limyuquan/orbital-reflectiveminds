@@ -19,7 +19,8 @@ function PreviousEntries({userId}) {
       curPage: curPage,
       user_id: userId,
     }
-    fetch('/api/dashboard/get-entries', {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    fetch(`${apiUrl}/api/dashboard/get-entries`, {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

@@ -70,8 +70,8 @@ function JournalEntry() {
             emotion: emotion
         }
 
-
-        fetch('/api/entry/submit-new-journal', {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        fetch(`${apiUrl}/api/entry/submit-new-journal`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

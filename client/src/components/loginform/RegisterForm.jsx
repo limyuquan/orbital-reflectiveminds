@@ -20,12 +20,13 @@ const RegisterForm = (props) => {
 
   //record down details
   const handleRegisterButton = (event) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     event.preventDefault();
     if (userState.newPassword.length < 8) {
       alert("Invalid password. Password must be at least 8 characters long.");
     } else {
       axios
-        .post("/api/auth/register", userState, {
+        .post(`${apiUrl}/api/auth/register`, userState, {
           headers: {
             "content-type": "application/x-www-form-urlencoded",
           },
