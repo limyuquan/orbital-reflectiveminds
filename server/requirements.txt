@@ -1,4 +1,7 @@
 Flask
 flask_cors
-flask_mysqldb
+flask-sqlalchemy
+flask_sqlalchemy
+pymysql
 werkzeug
+gunicorn

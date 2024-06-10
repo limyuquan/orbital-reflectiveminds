@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './journalEntry.css';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import the useHistory hook
 import EmotionMenu from './EmotionComponent/EmotionMenu';
+import Loader from '../shared/loader';
 
 function JournalEntry() {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ function JournalEntry() {
     const [content, setContent] = useState('');
     const [emotion, setEmotion] = useState('');
     const [emotionMenu, setEmotionMenu] = useState(false);
+    const [showLoader, setShowLoader] = useState(false);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -70,8 +72,9 @@ function JournalEntry() {
             emotion: emotion
         }
 
-
-        fetch('/api/entry/submit-new-journal', {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        setShowLoader(true);
+        fetch(`${apiUrl}/api/entry/submit-new-journal`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -81,6 +84,7 @@ function JournalEntry() {
             resetFields();
             alert('Journal entry created successfully!');
             navigate('/dashboard', { state: { userId: userId } });
+            setShowLoader(false);
         }
         ).catch((error) => {
             console.error('Error:', error);
@@ -90,6 +94,9 @@ function JournalEntry() {
 
     return (
         <div className="journal-entry">
+            <div>
+                {showLoader && <Loader />}
+            </div>
             <div className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left"></i>Dashboard</div>
             <div className="new-title">NEW JOURNAL ENTRY</div>
             <div id="wrapper">

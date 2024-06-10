@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './dashboard.css';
 import SearchButton from './SearchButton';
+import Loader from '../shared/loader';
 
 function PreviousEntries({userId}) {
   const [entries, setEntries] = useState([]);
   const [search, setSearch] = useState('');
   const [curPage, setCurPage] = useState(1);
   const [maxPages, setMaxPages] = useState(1);
+  const [showLoader, setShowLoader] = useState(false);
   
 
   useEffect(() => {
@@ -19,7 +21,9 @@ function PreviousEntries({userId}) {
       curPage: curPage,
       user_id: userId,
     }
-    fetch('/api/dashboard/get-entries', {
+    setShowLoader(true);
+    const apiUrl = process.env.REACT_APP_API_URL;
+    fetch(`${apiUrl}/api/dashboard/get-entries`, {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -30,14 +34,17 @@ function PreviousEntries({userId}) {
       .then(data => {
         setEntries(data.journals);
         setMaxPages(data.maxPages);
+        setShowLoader(false);
       })
       .catch(error => {
         console.error('Error:', error);
+        setShowLoader(false);
       });
   }
 
   return (
     <div className="previous-entries-container">
+      {showLoader && <Loader />}
       <div className="previous-entries-header">
         <h1 className="previous-entries-title">Previous Entries</h1>
         <SearchButton />
