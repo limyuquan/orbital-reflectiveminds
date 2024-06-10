@@ -121,7 +121,7 @@ function JournalEntry() {
 
                         {emotionMenu &&
                             (<div>
-                                <h1 className='emotion-menu'>{<EmotionMenu handleEmotionChange={handleEmotionChange} />}</h1>
+                                <h1 className='emotion-menu'>{<EmotionMenu handleEmotionChange={handleEmotionChange} showEmotionMenu={showEmotionMenu}/>}</h1>
                             </div>)
                         }
                     </div>
