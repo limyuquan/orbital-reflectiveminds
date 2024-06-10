@@ -44,6 +44,7 @@ const EmotionMenu = props => {
                 <button className="content" onClick={event => {
                     event.preventDefault();
                     props.handleEmotionChange(feeling);
+                    props.showEmotionMenu();
                 }}>{feeling}</button></div>
         )
     }
