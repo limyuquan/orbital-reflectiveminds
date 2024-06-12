@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './journalEntry.css';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import the useHistory hook
-import EmotionMenu from './EmotionComponent/EmotionMenu';
+import EmotionMenu from './EmotionComponent/EmotionMenu'; //Import EmotionMenu
+import Template from './TemplateHub/Templates'; //Import TemplateMenu
+
 import Loader from '../shared/loader';
+
+import TemplateDefault from './TemplateHub/TemplateDefault';
+import GratitudeForm from './TemplateHub/Gratitude';
+import GoalSetting from './TemplateHub/GoalSetting';
+import EventTemplate from './TemplateHub/EventTemplate';
+import DailyReflection from './TemplateHub/DailyReflection';
+import Book from './TemplateHub/Book';
+import Travel from './TemplateHub/Travel';
+import Weekend from './TemplateHub/Weekend';
 
 function JournalEntry() {
     const navigate = useNavigate();
@@ -21,13 +32,14 @@ function JournalEntry() {
     const [emotion, setEmotion] = useState('');
     const [emotionMenu, setEmotionMenu] = useState(false);
     const [showLoader, setShowLoader] = useState(false);
+    const [templateNumber, setTemplateNumber] = useState(0);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
     };
 
-    const handleContentChange = (event) => {
-        setContent(event.target.value);
+    const handleContentChange = (content) => {
+        setContent(content);
     };
 
     const handleEmotionChange = (feeling) => {  //changed from event to feeling, using event causes runtime errors when passed into child component EmotionMenu
@@ -36,6 +48,10 @@ function JournalEntry() {
 
     const showEmotionMenu = (event) => {
         setEmotionMenu(!emotionMenu);
+    }
+
+    const chooseTemplate = (number) => {
+        setTemplateNumber(number);
     }
 
     const resetFields = () => {
@@ -113,35 +129,43 @@ function JournalEntry() {
                         <div className='emotion-button'>
                             {!emotionMenu && (<button className='choose-emotion-button' onClick={showEmotionMenu}>
                                 {emotion || `Choose emotions`}
-                                </button>)}
+                            </button>)}
                             {emotionMenu && (<button className='hide-emotion-button' onClick={showEmotionMenu}>
                                 {emotion || `Hide emotions`}
-                                </button>)}
+                            </button>)}
                         </div>
 
                         {emotionMenu &&
                             (<div>
-                                <h1 className='emotion-menu'>{<EmotionMenu handleEmotionChange={handleEmotionChange} showEmotionMenu={showEmotionMenu}/>}</h1>
+                                <h1 className='emotion-menu'>{<EmotionMenu handleEmotionChange={handleEmotionChange} showEmotionMenu={showEmotionMenu} />}</h1>
                             </div>)
                         }
                     </div>
 
+                    <div>
+                        {
+                        templateNumber == 0 
+                        ? <TemplateDefault content={content} handleContentChange={handleContentChange}/> 
+                        : templateNumber == 1 
+                        ?<GratitudeForm content={content} handleContentChange={handleContentChange}/>
+                        : templateNumber == 2 
+                        ? <GoalSetting content={content} handleContentChange={handleContentChange}/>
+                        : templateNumber ==3 
+                        ? <DailyReflection content={content} handleContentChange={handleContentChange}/>
+                        : templateNumber == 4
+                        ? <EventTemplate content={content} handleContentChange={handleContentChange}/>
+                        : templateNumber == 5
+                        ? <Book content={content} handleContentChange={handleContentChange}/>
+                        : templateNumber == 6
+                        ? <Travel content={content} handleContentChange={handleContentChange}/>
+                        : <Weekend content={content} handleContentChange={handleContentChange}/>
+                        }
+                    </div>
 
-
-                    <textarea placeholder="What's on your mind today?" id="text" name="text" rows="10"
-                        value={content}
-                        onChange={handleContentChange}
-                        style={{
-                            outline: "none",
-                            border: "none",
-                            overflow: 'auto',
-                            wordWrap: 'break-word',
-                            resize: 'none',
-                            height: '700px',
-                            width: '510px'
-                        }}>
-                    </textarea>
                     <br />
+
+                    <Template chooseTemplate={chooseTemplate} />
+
                     <input id="button" type="submit" value="Create" onClick={handleSubmit} />
                 </form>
 

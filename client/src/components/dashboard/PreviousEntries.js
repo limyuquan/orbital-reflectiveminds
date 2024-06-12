@@ -56,7 +56,7 @@ function PreviousEntries({userId}) {
               <p className="entry-title">{entry.title}</p>
               <p className="entry-emotion">Emotion: {entry.emotion}</p>
             </div>
-            <p className="entry-text">{entry.content}</p>
+            <p className="entry-text" style={{ whiteSpace: 'pre-wrap' }}>{entry.content}</p>
             <b className="entry-date">{entry.date}</b>
           </div>
         ))}
