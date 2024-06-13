@@ -1,0 +1,16 @@
+#template-button-container {
+  display: flex; /* Use flexbox */
+  overflow-x: auto; /* Enable horizontal overflow */
+  white-space: nowrap; /* Prevent wrapping of buttons */
+  width: 93%;
+}
+
+#template-button {
+  background-color: #ddd; /* Grey background color */
+  color: black; /* Black text color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Adjust padding */
+  margin: 5px;  /* Adjust margin */
+  border-radius: 6px;
+  cursor: pointer;
+}
