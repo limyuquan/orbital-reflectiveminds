@@ -20,16 +20,12 @@ def submit_new_journal():
     date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     try:
-        connection = db.engine.connect()
-        stmt = text("INSERT INTO userEntry (userId, startDate, title, body, emotions) VALUES (:user_id, :date, :title, :content, :emotion)")
-        connection.execute(stmt, {"user_id":user_id, "date":date, "title":title, "content":content, "emotion":emotion})
-        stmt = text("UPDATE users SET last_entry = :date WHERE userId = :user_id")
-        connection.execute(stmt, {"date":date, "user_id":user_id})
-        connection.commit()
-        
-        # stmt = text('INSERT INTO users (username, password, email, created_at, last_entry) VALUES (:username, :password, :email, NOW(), NOW())')
-        #     connection.execute(stmt, {'username': username, 'password': hashed_password, 'email': email})
-        #     connection.commit()
+        with db.engine.connect() as connection:
+            stmt = text("INSERT INTO userEntry (userId, startDate, title, body, emotions) VALUES (:user_id, :date, :title, :content, :emotion)")
+            connection.execute(stmt, {"user_id":user_id, "date":date, "title":title, "content":content, "emotion":emotion})
+            stmt = text("UPDATE users SET last_entry = :date WHERE userId = :user_id")
+            connection.execute(stmt, {"date":date, "user_id":user_id})
+            connection.commit()
     except Exception as e:
         return {
             "status": "error",

@@ -91,7 +91,7 @@
 }
 
 .previous-entries-container{
-    margin-top: 260px;
+    margin-top: 0px;
 }
 
 .previous-entries-title{
@@ -191,3 +191,22 @@
   .pagination-btn:active {
     transform: scale(0.86);
   }
+
+  .wordcloud-container > div > svg {
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.wordcloud-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    margin-top: 75px;
+}
+

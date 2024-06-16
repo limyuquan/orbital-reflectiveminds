@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import Loader from "../shared/loader";
 
 
@@ -25,24 +25,23 @@ const LoginForm = (props) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     event.preventDefault();
     setShowLoader(true);
-    axios
-      .post(
-        `${apiUrl}/api/auth/login`,
-        {
-          username: userState.username,
-          password: userState.password,
-        },
-        {
-          headers: {
-            "content-type": "application/x-www-form-urlencoded",
-          },
-        }
-      )
-      .then((response) => {
-        if (response.data["status"] != "Success") {
+    const body = {
+      username: userState.username,
+      password: userState.password,
+    }
+    fetch(`${apiUrl}/api/auth/login`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: JSON.stringify(body)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status != "Success") {
           alert("Account does not exist! Incorrect username or password!");
         } else {
-          navigate("/dashboard", { state: { userId: response.data.userId } });
+          navigate("/dashboard", { state: { userId: data.userId } });
         }
         setShowLoader(false);
       })
@@ -51,6 +50,32 @@ const LoginForm = (props) => {
         alert("Error encountered");
         setShowLoader(false);
       });
+    // axios
+    //   .post(
+    //     `${apiUrl}/api/auth/login`,
+    //     {
+    //       username: userState.username,
+    //       password: userState.password,
+    //     },
+    //     {
+    //       headers: {
+    //         "content-type": "application/x-www-form-urlencoded",
+    //       },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     if (response.data["status"] != "Success") {
+    //       alert("Account does not exist! Incorrect username or password!");
+    //     } else {
+    //       navigate("/dashboard", { state: { userId: response.data.userId } });
+    //     }
+    //     setShowLoader(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     alert("Error encountered");
+    //     setShowLoader(false);
+    //   });
   };
 
   return (

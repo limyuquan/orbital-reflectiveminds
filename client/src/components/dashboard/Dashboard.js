@@ -2,6 +2,8 @@ import {React, useEffect} from 'react';
 import './dashboard.css';
 import PreviousEntries from './PreviousEntries'; // Import the PreviousEntries component
 import { useNavigate, useLocation } from 'react-router-dom'; // Import the useHistory hook
+import WordCloud from './WordCloud';
+
 
 function Dashboard() {
     const location = useLocation();
@@ -34,6 +36,7 @@ function Dashboard() {
                 <p>New Entry</p>
             </div>
         </div>
+        <WordCloud userId={userId} />
         <PreviousEntries userId={userId}/> 
       </div>
     </div>
