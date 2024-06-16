@@ -12,9 +12,9 @@ def get_previous_journals():
     cur_page = data['curPage']
 
     # Use SQLAlchemy's text() for raw SQL
-    connection = db.engine.connect()
-    stmt = text("SELECT title, startDate as date, body as content, emotions as emotion FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
-    entries = connection.execute(stmt, {"user_id":user_id}).fetchall()
+    with db.engine.connect() as connection:
+        stmt = text("SELECT title, startDate as date, body as content, emotions as emotion FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
+        entries = connection.execute(stmt, {"user_id":user_id}).fetchall()
 
     # Convert the entries to a list of dictionaries
     all_journals = [{"title": title, "date": date.strftime("%Y-%m-%d"), "content": content, "emotion": emotion} for title, date, content, emotion in entries]
@@ -28,3 +28,25 @@ def get_previous_journals():
         "currentPage": cur_page,
         "journals": journals
     }
+    
+@dashboard_routes.route('/get-emotion-stats', methods=['POST'])
+def get_emotion_stats():
+    data = request.get_json()
+    user_id = data['user_id']
+
+    # Use SQLAlchemy's text() for raw SQL
+    with db.engine.connect() as connection:
+        stmt = text("SELECT emotions FROM userEntry WHERE userId = :user_id")
+        emotions = connection.execute(stmt, {"user_id":user_id}).fetchall()
+
+    emotion_dict = {}
+    for emotion in emotions:
+        for e in emotion[0].split(","):
+            if e in emotion_dict:
+                emotion_dict[e] += 1
+            else:
+                emotion_dict[e] = 1
+
+    emotion_list = [{"text": emotion, "value": count} for emotion, count in emotion_dict.items()]
+
+    return emotion_list

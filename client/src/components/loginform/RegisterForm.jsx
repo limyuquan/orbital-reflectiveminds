@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./RegisterForm.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import Loader from "../shared/loader";
 
 
@@ -29,26 +29,47 @@ const RegisterForm = (props) => {
     if (userState.newPassword.length < 8) {
       alert("Invalid password. Password must be at least 8 characters long.");
     } else {
-      axios
-        .post(`${apiUrl}/api/auth/register`, userState, {
-          headers: {
-            "content-type": "application/x-www-form-urlencoded",
-          },
-        })
-        .then((response) => {
-          setShowLoader(false);
-          console.log(response);
-          if (response.data["status"] != "Success") {
-            alert("This account exists! Username or email is already in use!");
-          } else {
-            navigate("/login");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("Error encountered");
-          setShowLoader(false);
-        });
+      fetch(`${apiUrl}/api/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(userState)
+      })
+      .then(response => response.json())
+      .then(data => {
+        setShowLoader(false);
+        if (data["status"] != "Success") {
+          alert("This account exists! Username or email is already in use!");
+        } else {
+          navigate("/login");
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("Error encountered");
+        setShowLoader(false);
+      });
+      // axios
+      //   .post(`${apiUrl}/api/auth/register`, userState, {
+      //     headers: {
+      //       "content-type": "application/x-www-form-urlencoded",
+      //     },
+      //   })
+      //   .then((response) => {
+      //     setShowLoader(false);
+      //     console.log(response);
+      //     if (response.data["status"] != "Success") {
+      //       alert("This account exists! Username or email is already in use!");
+      //     } else {
+      //       navigate("/login");
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //     alert("Error encountered");
+      //     setShowLoader(false);
+      //   });
     }
   };
 
