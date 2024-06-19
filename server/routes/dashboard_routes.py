@@ -13,11 +13,11 @@ def get_previous_journals():
 
     # Use SQLAlchemy's text() for raw SQL
     with db.engine.connect() as connection:
-        stmt = text("SELECT title, startDate as date, body as content, emotions as emotion FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
+        stmt = text("SELECT title, startDate as date, body as content, emotions as emotion, journal_tags as tags FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
         entries = connection.execute(stmt, {"user_id":user_id}).fetchall()
 
     # Convert the entries to a list of dictionaries
-    all_journals = [{"title": title, "date": date.strftime("%Y-%m-%d"), "content": content, "emotion": emotion} for title, date, content, emotion in entries]
+    all_journals = [{"title": title, "date": date.strftime("%Y-%m-%d"), "content": content, "emotion": emotion, "tags":tags} for title, date, content, emotion, tags in entries]
     maxPages = len(all_journals) // 5 + 1
     start_index = cur_page * 5 - 5
     end_index = min(cur_page * 5, len(all_journals))

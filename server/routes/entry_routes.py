@@ -17,12 +17,13 @@ def submit_new_journal():
     title = data['title']
     content = data['content']
     emotion = data['emotion']
+    journalTags = data['journalTags']
     date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     try:
         with db.engine.connect() as connection:
-            stmt = text("INSERT INTO userEntry (userId, startDate, title, body, emotions) VALUES (:user_id, :date, :title, :content, :emotion)")
-            connection.execute(stmt, {"user_id":user_id, "date":date, "title":title, "content":content, "emotion":emotion})
+            stmt = text("INSERT INTO userEntry (userId, startDate, title, body, emotions, journal_tags) VALUES (:user_id, :date, :title, :content, :emotion, :journalTags)")
+            connection.execute(stmt, {"user_id":user_id, "date":date, "title":title, "content":content, "emotion":emotion, "journalTags":journalTags})
             stmt = text("UPDATE users SET last_entry = :date WHERE userId = :user_id")
             connection.execute(stmt, {"date":date, "user_id":user_id})
             connection.commit()
