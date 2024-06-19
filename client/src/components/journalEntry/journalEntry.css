@@ -67,7 +67,85 @@
   color: black;
   background-color: transparent;
   transform: translateX(5%) translateY(-56%);
+}
 
+.journal-tags {
+  color: black;
+  position: absolute;
+  margin-left: 2.5cm;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  text-transform: capitalize;
+  height: 30px;
+}
+
+.add-tag-button {
+  font-size: 12px;
+  padding: 8px 8px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+#tag {
+  position: relative;
+  background-color: rgb(245, 236, 185);
+  width: fit-content;
+  padding-right: 5px;
+  padding-left: 3px;
+  font-size: medium;
+  display: flex; /* Use flexbox */
+  align-items: center; /* Align items vertically center */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+}
+
+#tag-input {
+  position: relative;
+  background-color: rgb(245, 236, 185);
+  padding: 5px;
+  font-size: medium;
+  display: flex; 
+  align-items: center; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  margin-bottom: 10px; 
+  width: fit-content;
+}
+
+#tag-input input {
+  border: none;
+  background: transparent;
+  outline: none;
+  flex: 1; 
+  padding: 0 5px; 
+  font-size: medium; 
+  width: auto;
+  max-width: 60px;
+}
+
+.delete-button {
+  position: absolute;
+  background-color: rgba(255, 0, 0, 0.8); 
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 16px; 
+  height: 16px; 
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  top: -6px;
+  right: -5px;
+}
+
+#tag:hover .delete-button {
+  opacity: 1;
 }
 
 #text {
@@ -136,9 +214,7 @@
 }
 
 #template {
-  
 }
-
 
 #button:hover {
   transform: scale(1.05); /* Add this line */

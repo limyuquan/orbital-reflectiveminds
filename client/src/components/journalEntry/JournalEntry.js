@@ -27,9 +27,16 @@ function JournalEntry() {
         }
     }, [userId, navigate]);
 
+
+
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [emotion, setEmotion] = useState('');
+
+    const [tagName, setTagName] = useState('');
+    const [tags, setTags] = useState([]);
+    const [isTagInput, setIsTagInput] = useState(true);
+
     const [emotionMenu, setEmotionMenu] = useState(false);
     const [showLoader, setShowLoader] = useState(false);
     const [templateNumber, setTemplateNumber] = useState(0);
@@ -53,6 +60,26 @@ function JournalEntry() {
     const chooseTemplate = (number) => {
         setTemplateNumber(number);
     }
+
+    const handleTagInput = (event) => {
+        event.preventDefault();
+        setIsTagInput(!isTagInput);
+        if (tagName.trim()) {
+            setTags([...tags, tagName.trim()]);
+            setTagName('');
+        }
+    };
+
+    const handleDelete = (event, index) => {
+        event.preventDefault();
+        const updatedTags = [...tags];
+        updatedTags.splice(index, 1);
+        setTags(updatedTags);
+    };
+
+    const handleInputChange = (e) => {
+        setTagName(e.target.value);
+    };
 
     const resetFields = () => {
         setTitle('');
@@ -85,7 +112,8 @@ function JournalEntry() {
             user_id: userId,
             title: title,
             content: content,
-            emotion: emotion
+            emotion: emotion,
+            journalTags: tags.join(',') 
         }
 
         const apiUrl = process.env.REACT_APP_API_URL;
@@ -142,23 +170,51 @@ function JournalEntry() {
                         }
                     </div>
 
+                    <div className='journal-tags'>
+
+                        {tags.map((tag, index) => (
+                            <div key={index} id='tag'>
+                                {tag}
+                                <button onClick={(event) => handleDelete(event, index)} className='delete-button'>X</button>
+                            </div>
+                        ))}
+
+                        <div>
+                            {isTagInput ? (
+                                null
+                            ) : (
+                                <div id='tag-input'>
+                                    <input
+                                        type='text'
+                                        value={tagName}
+                                        onChange={handleInputChange}
+                                        placeholder='New tag'
+                                        onKeyDown={(e) => e.key === 'Enter' && handleTagInput(e)}
+                                    />
+                                </div>
+                            )}
+                        </div>
+
+                        {tags.length >= 5 ? null : <button className="add-tag-button" onClick={e => handleTagInput(e)}>Add tag</button>}
+                    </div>
+
                     <div>
                         {
-                        templateNumber == 0 
-                        ? <TemplateDefault content={content} handleContentChange={handleContentChange}/> 
-                        : templateNumber == 1 
-                        ?<GratitudeForm content={content} handleContentChange={handleContentChange}/>
-                        : templateNumber == 2 
-                        ? <GoalSetting content={content} handleContentChange={handleContentChange}/>
-                        : templateNumber ==3 
-                        ? <DailyReflection content={content} handleContentChange={handleContentChange}/>
-                        : templateNumber == 4
-                        ? <EventTemplate content={content} handleContentChange={handleContentChange}/>
-                        : templateNumber == 5
-                        ? <Book content={content} handleContentChange={handleContentChange}/>
-                        : templateNumber == 6
-                        ? <Travel content={content} handleContentChange={handleContentChange}/>
-                        : <Weekend content={content} handleContentChange={handleContentChange}/>
+                            templateNumber == 0
+                                ? <TemplateDefault content={content} handleContentChange={handleContentChange} />
+                                : templateNumber == 1
+                                    ? <GratitudeForm content={content} handleContentChange={handleContentChange} />
+                                    : templateNumber == 2
+                                        ? <GoalSetting content={content} handleContentChange={handleContentChange} />
+                                        : templateNumber == 3
+                                            ? <DailyReflection content={content} handleContentChange={handleContentChange} />
+                                            : templateNumber == 4
+                                                ? <EventTemplate content={content} handleContentChange={handleContentChange} />
+                                                : templateNumber == 5
+                                                    ? <Book content={content} handleContentChange={handleContentChange} />
+                                                    : templateNumber == 6
+                                                        ? <Travel content={content} handleContentChange={handleContentChange} />
+                                                        : <Weekend content={content} handleContentChange={handleContentChange} />
                         }
                     </div>
 
