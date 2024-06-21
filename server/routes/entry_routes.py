@@ -1,8 +1,11 @@
+import os
 
 from flask import jsonify, Blueprint, Flask, request
 from datetime import datetime
 from sqlalchemy import text
 from db import db
+
+#from openai import OpenAI
 
 entry_routes = Blueprint('entry_routes', __name__)
 
@@ -40,10 +43,22 @@ def submit_new_journal():
 
 @entry_routes.route('/open-ai', methods=['POST'])
 def promptOpenAI():
-    print('openai endpoint reached')
     #make openai call here!
-
+    '''client = OpenAI(
+        api_key=os.environ.get("OPENAI_API_KEY"),
+    )
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a journalling assistant, able to suggest creative journalling prompts!"},
+            {"role": "user", "content": "Suggest a prompt"}
+        ],
+    )
+    print(response)
+    print(response.choices[0])
+    print(response.choices[0].message['content'])
+    prompt = response.choices[0].message['content']'''
 
     return {
-        "status": "success"
+        "status": prompt
     }
