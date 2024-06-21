@@ -36,3 +36,14 @@ def submit_new_journal():
     return {
         "status": "success"
     }
+
+
+@entry_routes.route('/open-ai', methods=['POST'])
+def promptOpenAI():
+    print('openai endpoint reached')
+    #make openai call here!
+
+
+    return {
+        "status": "success"
+    }

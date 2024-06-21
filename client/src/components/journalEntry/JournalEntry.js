@@ -15,6 +15,8 @@ import Book from './TemplateHub/Book';
 import Travel from './TemplateHub/Travel';
 import Weekend from './TemplateHub/Weekend';
 
+import OpenAI from './OpenAI';
+
 function JournalEntry() {
     const navigate = useNavigate();
 
@@ -113,7 +115,7 @@ function JournalEntry() {
             title: title,
             content: content,
             emotion: emotion,
-            journalTags: tags.join(',') 
+            journalTags: tags.join(',')
         }
 
         const apiUrl = process.env.REACT_APP_API_URL;
@@ -168,6 +170,8 @@ function JournalEntry() {
                                 <h1 className='emotion-menu'>{<EmotionMenu handleEmotionChange={handleEmotionChange} showEmotionMenu={showEmotionMenu} />}</h1>
                             </div>)
                         }
+
+                        <OpenAI></OpenAI>
                     </div>
 
                     <div className='journal-tags'>
@@ -180,9 +184,8 @@ function JournalEntry() {
                         ))}
 
                         <div>
-                            {isTagInput ? (
-                                null
-                            ) : (
+                            {isTagInput && (
+
                                 <div id='tag-input'>
                                     <input
                                         type='text'
@@ -193,12 +196,13 @@ function JournalEntry() {
                                     />
                                 </div>
                             )}
+
                         </div>
 
                         {tags.length >= 5 ? null : <button className="add-tag-button" onClick={e => handleTagInput(e)}>Add tag</button>}
                     </div>
 
-                    <div>
+                    <div className='text-area'>
                         {
                             templateNumber == 0
                                 ? <TemplateDefault content={content} handleContentChange={handleContentChange} />
