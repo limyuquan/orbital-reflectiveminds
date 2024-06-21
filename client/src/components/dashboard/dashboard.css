@@ -1,84 +1,89 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 .dashboard {
-    width: 80%;
-    margin: 0 auto;
-    font-family: 'Roboto', sans-serif;
+  width: 80%;
+  margin: 0 auto;
+  font-family: "Roboto", sans-serif;
 }
 
+.app-title {
+  color: black;
+  font-weight: 100;
+  font-size: 22px;
+  letter-spacing: 2px;
+}
 
-  .app-title{
-    color: black;
-    font-weight: 100;
-    font-size: 22px;
-    letter-spacing: 2px;
-  }
+.dashboard-main {
+  margin-top: 100px;
+}
 
-  .dashboard-main{
-    margin-top: 100px;
-  }
+.journal-text {
+  letter-spacing: 2px;
+  font-weight: 700;
+  font-size: 70px;
 
-  .journal-text{
-    letter-spacing: 2px;
-    font-weight: 700;
-    font-size: 70px;
+  margin-bottom: 0;
+}
 
-    margin-bottom: 0;
-  }
+.journal-intro-p {
+  margin-top: 5px;
+  padding-top: 0;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+}
 
-  .journal-intro-p{
-    margin-top: 5px;
-    padding-top: 0;
-    font-size: 18px;
-    letter-spacing: 0.5px;
-  }
-  
-  .mind {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .mind {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .mind::after {
-    content: '';
-    position: absolute;
+.mind {
+  position: relative;
+  display: inline-block;
+}
+
+.mind {
+  position: relative;
+  display: inline-block;
+}
+
+.mind::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000;
+  animation: underline 2s infinite;
+}
+
+@keyframes underline {
+  0% {
     width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #000;
-    animation: underline 2s infinite;
   }
-  
-  @keyframes underline {
-    0% { width: 0; }
-    50% { width: 100%; }
-    100% { width: 0; }
+  50% {
+    width: 100%;
   }
+  100% {
+    width: 0;
+  }
+}
 
-  .new-entry-container{
-    margin-top: 10px;
-  }
+.new-entry-container {
+  margin-top: 10px;
+}
 
-  .new-entry-btn {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    color: white;
-    background-color: rgb(66, 225, 249);
-    width: 196px;
-    height: 40px;
-    letter-spacing: 0px;
-    border-radius: 20px;
-    font-weight: 700;
-    font-size: 17px;
-    transition: transform 0.3s ease;
+.new-entry-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: white;
+  background-color: rgb(66, 225, 249);
+  width: 196px;
+  height: 40px;
+  letter-spacing: 0px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 17px;
+  transition: transform 0.3s ease;
 }
 
 .new-entry-btn:hover {
@@ -86,34 +91,87 @@
 }
 
 @keyframes bounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
 }
 
-.previous-entries-container{
-    margin-top: 0px;
+.previous-entries-container {
+  margin-top: 0px;
 }
 
-.previous-entries-title{
-    letter-spacing: 0.5px;
-    font-weight: 500;
-    font-size: 30px;
-    
+.previous-entries-title {
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  font-size: 30px;
 }
 
 .previous-entries-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.previous-entries-journaltag-search {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.journal-tag-button {
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: rgb(225, 225, 225);
+  border-style: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+
+  padding-left: 8px;
+}
+
+.journal-tag-section {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.journal-tag-board {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  max-width: 9cm;
+  overflow-x: auto;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.journal-tag {
+  border: solid 1px #000;
+  min-width: fit-content;
+  background-color: #ffffff; 
+  padding: 4px 8px; /* Adjust padding as needed */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 3D effect shadow */
+  display: inline-block; /* Ensure tags are inline */
+  margin: 8px; /* Adjust margin as needed */
+}
 
 .entry-header {
-    display: flex;
-    position: relative;
-    justify-content: space-between;
-    margin-right: 20px;
-    margin-bottom: 20px;
-  }
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
 
 .entry-title-tags {
   display: flex;
@@ -128,7 +186,7 @@
 
 .tag-row {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 
 .tag {
@@ -139,97 +197,100 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 3D shadow effect */
 }
 
-.entry-title{
-    font-weight: 700;
-    font-size: 22px;
-    letter-spacing: 0.5px;
+.entry-title {
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.5px;
 }
 
 .entry {
-    border: 1px solid #ddd; /* Subtle color */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Shadow */
-    padding: 10px 30px 40px 30px;
-    margin-bottom: 36px;
-    transition: transform 0.1s ease-in-out; /* Add this line */
+  border: 1px solid #ddd; /* Subtle color */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Shadow */
+  padding: 10px 30px 40px 30px;
+  margin-bottom: 36px;
+  transition: transform 0.1s ease-in-out; /* Add this line */
 }
 
 .entry:hover {
-    transform: scale(1.01); /* Add this line */
+  transform: scale(1.01); /* Add this line */
 }
 
-.entry-text{
-    line-height: 25px;
+.entry-text {
+  line-height: 25px;
 }
 
-.entry-date{
-    font-size: 15px;
-    color: #777;
-    margin-top: 10px;
-    letter-spacing: 0.5px;
+.entry-date {
+  font-size: 15px;
+  color: #777;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
 }
 .search-button i {
-    cursor: pointer;
-    font-size: 24px;
-    border-radius: 50%;
-    background-color: rgb(225, 225, 225);
-    padding: 10px;
-    box-shadow: 0 0 1 0px rgba(0, 123, 255, 0.25);
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 50%;
+  background-color: rgb(225, 225, 225);
+  padding: 10px;
+  box-shadow: 0 0 1 0px rgba(0, 123, 255, 0.25);
 }
 .search-button input {
-    height: 26px;
-    font-size: 16px; /* Increase the font size */
-    font-family: Arial, sans-serif; /* Change the font family */
-    padding: 5px 10px; /* Add padding */
-    border-radius: 5px; /* Add border radius */
-    color: #333; /* Change the text color */
-  }
-  
-  .search-button input:focus {
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25);
-  }
+  height: 26px;
+  font-size: 16px; /* Increase the font size */
+  font-family: Arial, sans-serif; /* Change the font family */
+  padding: 5px 10px; /* Add padding */
+  border-radius: 5px; /* Add border radius */
+  color: #333; /* Change the text color */
+}
 
-  .pagination-container{
-    display: flex;
-    justify-content: right;
-    margin: 50px 0;
-  }
+.search-button input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25);
+}
 
-  .pagination-btn {
-    margin: 0 5px;
-    cursor: pointer;
-    border-radius: 15px;
-    font-size: 24px;
-    background-color: rgb(66, 225, 249);
-    padding: 5px 10px;
-    box-shadow: 0 0 1 0px rgba(0, 123, 255, 0.25);
-    transition: transform 0.3s ease;
-  }
+.pagination-container {
+  display: flex;
+  justify-content: right;
+  margin: 50px 0;
+}
 
-  .pagination-btn:hover {
-    transform: scale(1.10);
-  }
+.pagination-btn {
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 15px;
+  font-size: 24px;
+  background-color: rgb(66, 225, 249);
+  padding: 5px 10px;
+  box-shadow: 0 0 1 0px rgba(0, 123, 255, 0.25);
+  transition: transform 0.3s ease;
+}
 
-  .pagination-btn:active {
-    transform: scale(0.86);
-  }
+.pagination-btn:hover {
+  transform: scale(1.1);
+}
 
-  .wordcloud-container > div > svg {
-    margin: 0 auto;
-    margin-bottom: 50px;
+.pagination-btn:active {
+  transform: scale(0.86);
+}
+
+.wordcloud-container > div > svg {
+  margin: 0 auto;
+  margin-bottom: 50px;
 }
 
 @keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .wordcloud-title {
-    text-align: center;
-    font-size: 20px;
-    font-weight: 200;
-    letter-spacing: 1px;
-    margin-top: 75px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 200;
+  letter-spacing: 1px;
+  margin-top: 75px;
 }
-
