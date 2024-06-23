@@ -10,6 +10,7 @@
   gap: 2px;
   background-color: transparent;
   justify-items: center;
+  position: relative;
 }
 
 .grid-item {
@@ -34,10 +35,10 @@
 
 .dropdown-content {
   position: absolute;
-  margin-top: 150px;
   display: flex; /* Use Flexbox */
   flex-direction: column;
   justify-content: center; /* Center horizontally */
+  top: 110%;
 }
 
 #myInput {
@@ -70,13 +71,13 @@
   background-color: #f6f6f6;
   overflow: auto;
   border: 0.5px solid #ddd;
-  z-index: 1;
+  z-index: 10;
   height: 40px;
   text-align: left;
   padding-left: 20px;
   display: block;
   width: 100%;
-
+  position: relative;
   font-size: large;
 }
 
