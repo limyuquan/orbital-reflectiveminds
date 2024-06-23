@@ -2,29 +2,31 @@ import React, { useState } from 'react';
 import './dashboard.css';
 import { FaTags } from "react-icons/fa";
 
-const JournalTag = (props) => {
+const JournalTag = (props) => {   //JournalTagsMap={JournalTagsMap} setFilteredTags={setFilteredTags}
     const [isTagBoard, setIsTagBoard] = useState(false);
-    const [currentTag, setCurrentTag] = useState(false);
-    const [selectedTags, setSelectedTags] = useState({})
+    const [selectedTags, setSelectedTags] = useState(props.filteredTags);
 
     const openTagBoard = (event) => {
         event.preventDefault();
         setIsTagBoard(!isTagBoard);
     }
 
-    const handleDivClick = (key) => {
+    const handleDivClick = (key) => {   //this will colour the selected tags n group them + only include entries with selected tags
         setSelectedTags(selectedTags => {
+            let updatedTags;
             if (selectedTags[key] == undefined) {
-                return {
+                updatedTags = {
                     ...selectedTags,
                     [key]: true
                 };
             } else {
-                return {
-                    ...selectedTags,
-                    [key]: !selectedTags[key]
+                updatedTags = {
+                    ...selectedTags
                 };
+                delete updatedTags[key];
             }
+            props.setFilteredTags(updatedTags);
+            return updatedTags;
         })
     };
 

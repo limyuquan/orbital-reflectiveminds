@@ -6,7 +6,10 @@ import Loader from '../shared/loader';
 
 function PreviousEntries({ userId }) {
   const [entries, setEntries] = useState([]);
-  const [tags, setTags] = useState([]);
+
+  const [tags, setTags] = useState([]);  //all tags in string array
+  const [filteredTags, setFilteredTags] = useState({});
+
   const [search, setSearch] = useState('');
   const [curPage, setCurPage] = useState(1);
   const [maxPages, setMaxPages] = useState(1);
@@ -18,11 +21,17 @@ function PreviousEntries({ userId }) {
     getJournalEntries();
   }, [curPage]); // Add this useEffect hook
 
+  useEffect(() => {
+    console.log(filteredTags);
+    getJournalEntries();
+  }, [filteredTags])
+
   function getJournalEntries() {
     // Replace this with a fetch call to the server
     const body = {
       curPage: curPage,
       user_id: userId,
+      filtered_tags: filteredTags,
     }
     setShowLoader(true);
     
@@ -47,8 +56,6 @@ function PreviousEntries({ userId }) {
         setShowLoader(false);
       });
   }
-
-
 
   const addToJournalTagsMap = (tagName) => {
     if (tagName == 'default_value' || tagName == '') {
@@ -91,14 +98,13 @@ function PreviousEntries({ userId }) {
   }
 
   convertToStringArray(tags);
-
   return (
     <div className="previous-entries-container">
       {showLoader && <Loader />}
       <div className="previous-entries-header">
         <h1 className="previous-entries-title">Previous Entries</h1>
         <div className='previous-entries-journaltag-search'>
-          <JournalTag JournalTagsMap={JournalTagsMap}/>
+          <JournalTag JournalTagsMap={JournalTagsMap} filteredTags={filteredTags} setFilteredTags={setFilteredTags}/>
           <SearchButton />
         </div>
       </div>
