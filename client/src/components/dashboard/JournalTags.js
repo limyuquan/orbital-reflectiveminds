@@ -4,19 +4,37 @@ import { FaTags } from "react-icons/fa";
 
 const JournalTag = (props) => {
     const [isTagBoard, setIsTagBoard] = useState(false);
+    const [currentTag, setCurrentTag] = useState(false);
+    const [selectedTags, setSelectedTags] = useState({})
 
     const openTagBoard = (event) => {
         event.preventDefault();
         setIsTagBoard(!isTagBoard);
     }
 
+    const handleDivClick = (key) => {
+        setSelectedTags(selectedTags => {
+            if (selectedTags[key] == undefined) {
+                return {
+                    ...selectedTags,
+                    [key]: true
+                };
+            } else {
+                return {
+                    ...selectedTags,
+                    [key]: !selectedTags[key]
+                };
+            }
+        })
+    };
+
     const renderJournalTags = (map) => {
         let JournalTagsMap = map;
-        return Array.from(JournalTagsMap.entries()).map(([key, value]) => (
-            <div className='journal-tag'>
+        return Array.from(JournalTagsMap).sort((a, b) => b[1] - a[1]).map(([key, value]) => {
+            return (<div key={key} className='journal-tag' onClick={() => handleDivClick(key)} style={{ backgroundColor: selectedTags[key] ? '#f5ecb9' : '#ffffff' }}>
                 {key} {value}
-            </div>
-        ))
+            </div>)
+        })
     }
 
     return (

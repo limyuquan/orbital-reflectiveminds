@@ -163,6 +163,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 3D effect shadow */
   display: inline-block; /* Ensure tags are inline */
   margin: 8px; /* Adjust margin as needed */
+  cursor: pointer;
 }
 
 .entry-header {

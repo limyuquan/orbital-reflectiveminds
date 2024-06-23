@@ -6,6 +6,7 @@ import Loader from '../shared/loader';
 
 function PreviousEntries({ userId }) {
   const [entries, setEntries] = useState([]);
+  const [tags, setTags] = useState([]);
   const [search, setSearch] = useState('');
   const [curPage, setCurPage] = useState(1);
   const [maxPages, setMaxPages] = useState(1);
@@ -24,7 +25,9 @@ function PreviousEntries({ userId }) {
       user_id: userId,
     }
     setShowLoader(true);
+    
     const apiUrl = process.env.REACT_APP_API_URL;
+
     fetch(`${apiUrl}/api/dashboard/get-entries`, {
       method: 'POST',
       headers: {
@@ -36,6 +39,7 @@ function PreviousEntries({ userId }) {
       .then(data => {
         setEntries(data.journals);
         setMaxPages(data.maxPages);
+        setTags(data.tags);
         setShowLoader(false);
       })
       .catch(error => {
@@ -58,15 +62,14 @@ function PreviousEntries({ userId }) {
     }
   }
 
-
-  const addToJournalTagsMap2 = (entries) => {
+  const convertToStringArray = (entries) => {
     entries.map(entry => {
-      entry.tags.split(',').map(tag => {
+      entry.split(',').map(tag => {
+        //add each string element into map
         addToJournalTagsMap(tag);
       });
     })
   }
-
 
   const showTags = (tags) => {  //shows the tag for respective entries + adds the tags to the tag map ^^^
     if (!tags || tags == 'default_value') {
@@ -87,15 +90,15 @@ function PreviousEntries({ userId }) {
     );
   }
 
+  convertToStringArray(tags);
 
-  addToJournalTagsMap2(entries);
   return (
     <div className="previous-entries-container">
       {showLoader && <Loader />}
       <div className="previous-entries-header">
         <h1 className="previous-entries-title">Previous Entries</h1>
         <div className='previous-entries-journaltag-search'>
-          <JournalTag JournalTagsMap={JournalTagsMap} />
+          <JournalTag JournalTagsMap={JournalTagsMap}/>
           <SearchButton />
         </div>
       </div>
