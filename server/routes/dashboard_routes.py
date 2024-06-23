@@ -17,16 +17,19 @@ def get_previous_journals():
         entries = connection.execute(stmt, {"user_id":user_id}).fetchall()
 
     # Convert the entries to a list of dictionaries
+
     all_journals = [{"title": title, "date": date.strftime("%Y-%m-%d"), "content": content, "emotion": emotion, "tags":tags} for title, date, content, emotion, tags in entries]
     maxPages = len(all_journals) // 5 + 1
     start_index = cur_page * 5 - 5
     end_index = min(cur_page * 5, len(all_journals))
     journals = all_journals[start_index:end_index]
+    tags = [entry["tags"] for entry in all_journals]
 
     return {
         "maxPages": maxPages,
         "currentPage": cur_page,
-        "journals": journals
+        "journals": journals,
+        "tags": tags
     }
     
 @dashboard_routes.route('/get-emotion-stats', methods=['POST'])
