@@ -30,6 +30,8 @@ function JournalEntry() {
     }, [userId, navigate]);
 
 
+    const [openAIPrompt, setOpenAIPrompt] = useState('');
+    const [isPrompt, setIsPrompt] = useState(false);
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -145,8 +147,8 @@ function JournalEntry() {
             </div>
             <div className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left"></i>Dashboard</div>
             <div className="new-title">NEW JOURNAL ENTRY</div>
+            <div className='new-prompt'>{isPrompt && (<> Prompt...<br  /> <br  />{openAIPrompt} </>)}</div>
             <div id="wrapper">
-
                 <form id="paper" method="get" action="">
                     <div className="new-journal-header">
                         <div id="margin">Title:
@@ -171,7 +173,7 @@ function JournalEntry() {
                             </div>)
                         }
 
-                        <OpenAI></OpenAI>
+                        <OpenAI setOpenAIPrompt={setOpenAIPrompt} setIsPrompt={setIsPrompt} isPrompt={isPrompt}></OpenAI>
                     </div>
 
                     <div className='journal-tags'>
