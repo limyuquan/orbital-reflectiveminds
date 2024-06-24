@@ -21,19 +21,19 @@ def get_previous_journals():
 
     all_journals = [{"title": title, "date": date.strftime("%Y-%m-%d"), "content": content, "emotion": emotion, "tags":tags} for title, date, content, emotion, tags in entries]
 
-
-    filteredEntries = []
+    filteredEntriesArray = []
     for entry in all_journals:
         if (len(filtered_tags) == 0):  #no filters
             break;
-        tag_array = entry["tags"].split(',');
-        for tag in tag_array:
-            present = filtered_tags.get(tag)
-            if present:
-                filteredEntries.append(entry)
-                break
-            else:
-                continue
+        
+        tag_array = entry['tags'].split(',')
+        
+        entry_tags_set = set(tag_array)
+        filtered_tags_set = set(filtered_tags)
+
+        if filtered_tags_set.issubset(entry_tags_set):
+                filteredEntriesArray.append(entry)
+        
 
 
     maxPages = len(all_journals) // 5 + 1
@@ -45,7 +45,7 @@ def get_previous_journals():
     return {
         "maxPages": maxPages,
         "currentPage": cur_page,
-        "journals": journals if len(filteredEntries) == 0 else filteredEntries[start_index:end_index],
+        "journals": journals if len(filteredEntriesArray) == 0 and len(filtered_tags) == 0 else filteredEntriesArray[start_index:end_index],
         "tags": tags
     }
     

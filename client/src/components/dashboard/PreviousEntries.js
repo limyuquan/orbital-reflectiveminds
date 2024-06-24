@@ -22,7 +22,6 @@ function PreviousEntries({ userId }) {
   }, [curPage]); // Add this useEffect hook
 
   useEffect(() => {
-    console.log(filteredTags);
     getJournalEntries();
   }, [filteredTags])
 
