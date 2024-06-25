@@ -46,7 +46,7 @@ const JournalTag = (props) => {   //JournalTagsMap={JournalTagsMap} setFilteredT
                     {renderJournalTags(props.JournalTagsMap)}
                 </div>
             }
-            <button className='journal-tag-button' onClick={e => openTagBoard(e)}>
+            <button className='journal-tag-button' onClick={e => openTagBoard(e)}  style={{backgroundColor: isTagBoard ? '#5aede5' : '#e1e1e1' }}>
                 <FaTags size={36} />
             </button>
         </div>
