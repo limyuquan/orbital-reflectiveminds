@@ -100,6 +100,18 @@
   }
 }
 
+.bookmark-entries-header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.bookmark-dropdown-button {
+  display: flex;
+  justify-content: center;
+  color: black;
+}
+
 .previous-entries-container {
   margin-top: 0px;
 }
@@ -157,7 +169,7 @@
 .journal-tag {
   border: solid 1px #000;
   min-width: fit-content;
-  background-color: #ffffff; 
+  background-color: #ffffff;
   padding: 4px 8px; /* Adjust padding as needed */
   border-radius: 8px; /* Rounded corners */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 3D effect shadow */
@@ -172,12 +184,14 @@
   justify-content: space-between;
   margin-right: 20px;
   margin-bottom: 20px;
+  gap: 5px;
 }
 
 .entry-title-tags {
   display: flex;
   flex-direction: row;
   align-items: center;
+  min-width: fit-content;
 }
 
 .entry-tags {
@@ -198,10 +212,26 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 3D shadow effect */
 }
 
+.entry-emotion-bookmark {
+  display: flex;
+  gap: 10px;
+}
+
 .entry-title {
   font-weight: 700;
   font-size: 22px;
   letter-spacing: 0.5px;
+}
+
+.entry-emotion {
+  min-width: fit-content;
+}
+
+.entry-bookmark {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 70%;
 }
 
 .entry {
@@ -231,7 +261,7 @@
   cursor: pointer;
   font-size: 24px;
   border-radius: 50%;
-  background-color: rgb(225, 225, 225);
+  background-color: #e1e1e1;
   padding: 10px;
   box-shadow: 0 0 1 0px rgba(0, 123, 255, 0.25);
 }
