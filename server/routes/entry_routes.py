@@ -1,8 +1,12 @@
-
 from flask import jsonify, Blueprint, Flask, request
 from datetime import datetime
 from sqlalchemy import text
 from db import db
+
+import os
+
+import openai
+from openai import OpenAI
 
 entry_routes = Blueprint('entry_routes', __name__)
 
@@ -36,3 +40,32 @@ def submit_new_journal():
     return {
         "status": "success"
     }
+
+
+@entry_routes.route('/open-ai', methods=['POST'])
+def promptOpenAI():
+    #make openai call here!
+    try :
+        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You're a journaling assistant."},
+                {"role": "user", "content": "Prompt 1"}
+                ],
+                )
+        print(response)
+        print(response.choices[0])
+        print(response.choices[0].message['content'])
+
+        return {
+            "status":response.choices[0].message['content']
+        }
+
+    except openai.RateLimitError as e:
+       return {"status": "Rate limit exceeded. Please try again later."}
+    except openai.APIError as e:
+        return {"status": "An error occurred with the OpenAI API."}
+    except Exception as e:
+        return {"status": str(e)}
+    
