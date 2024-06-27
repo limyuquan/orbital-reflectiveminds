@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './dashboard.css';
 import SearchButton from './SearchButton';
 import JournalTag from './JournalTags';
@@ -98,6 +98,7 @@ function PreviousEntries({ userId }) {
         setTags(data.tags);
         setShowLoader(false);
         setJournalEntriesLoaded(true);
+        console.log("all journals ", data.all_journals)
       })
       .catch(error => {
         console.error('Error:', error);
@@ -161,13 +162,21 @@ function PreviousEntries({ userId }) {
   const bookmarkEntry = (isBookmarked, target = undefined) => {   //adds bookmarked entries to be displayed
     let newBookmarkedEntries = [...bookmarkEntries];
 
+    console.log("entries length ", allEntries.length);
+    //get the relative position of an entry in all entries
+
     //remove the target first
     if (target !== undefined && newBookmarkedEntries[target] !== undefined) {
       newBookmarkedEntries[target] = undefined;
     }
 
-    for (const index of isBookmarked) {
-      newBookmarkedEntries[index] = { index, ...allEntries[index] };
+    const reversedEntries = [...allEntries].reverse();
+
+    console.log(isBookmarked)
+    console.log(allEntries);
+
+    for (const index of isBookmarked) {  //the entryID in isBookmarked
+      newBookmarkedEntries[index] = { index, ...reversedEntries[index]};
     }
 
     setBookmarkEntries(newBookmarkedEntries);
@@ -202,8 +211,8 @@ function PreviousEntries({ userId }) {
           </div>
 
           {showBookmarks && <div className="all-entries-container">
-            {bookmarkEntries.map((bookmarkEntry) => {
-
+            {bookmarkEntries.slice().reverse().map((bookmarkEntry) => {
+              
               if (bookmarkEntry === undefined) {
                 return null; // Skip rendering if bookmarkEntry is undefined
               }
@@ -218,7 +227,7 @@ function PreviousEntries({ userId }) {
 
                     <div className='entry-emotion-bookmark'>
                       <p className="entry-emotion">Emotion: {bookmarkEntry.emotion}</p>
-                      <UnpinBookmark entryId={bookmarkEntry.id} addEntry={addEntry} isBookmarked={isBookmarked} />
+                      <UnpinBookmark entryId={bookmarkEntry.index} addEntry={addEntry} isBookmarked={isBookmarked} />
                     </div>
                   </div>
                   <p className="entry-text" style={{ whiteSpace: 'pre-wrap' }}>{bookmarkEntry.content}</p>
@@ -244,8 +253,9 @@ function PreviousEntries({ userId }) {
         </div>
         <div className="all-entries-container">
           {entries.map((entry) => {
+            console.log(entry.entryID-1)
             return (
-              <div key={entry.id} className="entry">
+              <div key={entry.entryID-1} className="entry">
                 <div className="entry-header">
 
                   <div className='entry-title-tags'>
@@ -255,7 +265,7 @@ function PreviousEntries({ userId }) {
 
                   <div className='entry-emotion-bookmark'>
                     <p className="entry-emotion">Emotion: {entry.emotion}</p>
-                    <Bookmark entryId={entry.id} addEntry={addEntry} isBookmarked={isBookmarked} />
+                    <Bookmark entryId={entry.entryID-1} addEntry={addEntry} isBookmarked={isBookmarked} />
                   </div>
                 </div>
                 <p className="entry-text" style={{ whiteSpace: 'pre-wrap' }}>{entry.content}</p>
