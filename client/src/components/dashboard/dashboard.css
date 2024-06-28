@@ -178,13 +178,15 @@
   cursor: pointer;
 }
 
+.all-entries-container {
+  min-width: 13.4cm;
+}
+
 .entry-header {
   display: flex;
   position: relative;
-  justify-content: space-between;
-  margin-right: 20px;
+  justify-content: space-between;  
   margin-bottom: 20px;
-  gap: 5px;
 }
 
 .entry-title-tags {
@@ -214,7 +216,11 @@
 
 .entry-emotion-bookmark {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: fit-content;
   gap: 10px;
+
 }
 
 .entry-title {
@@ -231,7 +237,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 70%;
 }
 
 .entry {

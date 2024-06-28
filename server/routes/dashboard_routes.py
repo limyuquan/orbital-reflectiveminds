@@ -35,18 +35,15 @@ def get_previous_journals():
 
     # Use SQLAlchemy's text() for raw SQL
     with db.engine.connect() as connection:
-        stmt = text("SELECT title, startDate as date, body as content, emotions as emotion, journal_tags as tags FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
+        stmt = text("SELECT entryId as entryID, title, startDate as date, body as content, emotions as emotion, journal_tags as tags FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
         entries = connection.execute(stmt, {"user_id":user_id}).fetchall()
 
         stmt_bookmark = text("SELECT bookmark FROM users WHERE userId = :user_id")
         result = connection.execute(stmt_bookmark, {"user_id": user_id}).fetchone()
 
-        bookmark_value = sorted(map(int, result[0].split(','))) if result[0] else []
+        bookmark_value = sorted(map(int, result[0].split(',')), reverse=True) if result[0] else []
 
-
-    # Create all_journals list and add entries with bookmark set to true, 
-    # also add the entry ID to bookmarked_entry_ids if bookmark is true
-    all_journals = [{"id": index, "title": title, "date": date.strftime("%Y-%m-%d"), "content": content,"emotion": emotion,"tags": tags} for index, (title, date, content, emotion, tags) in enumerate(entries)]
+    all_journals = [{"id": index, "entryID": entryID,  "title": title, "date": date.strftime("%Y-%m-%d"), "content": content,"emotion": emotion,"tags": tags} for index, (entryID, title, date, content, emotion, tags) in enumerate(entries)]
 
     filteredEntriesArray = []
     for entry in all_journals:
