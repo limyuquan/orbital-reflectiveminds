@@ -52,6 +52,21 @@
   margin-top: -20px;
 }
 
+.prompt-set-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.set-prompt-title-button {
+  cursor: pointer;
+  margin-right: 1.7cm;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+  transform: translateY(-2px); /* Lifts the button up by 2px */
+  padding: 3px;
+  border-radius: 10px;
+  border: 1px solid #000;
+}
+
 .new-journal-header {
   display: flex;
   position: relative;
