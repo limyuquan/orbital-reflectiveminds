@@ -147,7 +147,11 @@ function JournalEntry() {
             </div>
             <div className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left"></i>Dashboard</div>
             <div className="new-title">NEW JOURNAL ENTRY</div>
-            <div className='new-prompt'>{isPrompt && (<> Prompt...<br  /> <br  />{openAIPrompt} </>)}</div>
+            <div className='new-prompt'>
+                {isPrompt && (<> <div className='prompt-set-title'>Prompt... <div className='set-prompt-title-button' onClick={() => setTitle(openAIPrompt)}>Set as Title</div></div>  <br/> <br  />{openAIPrompt}</>)}
+                
+            </div>
+
             <div id="wrapper">
                 <form id="paper" method="get" action="">
                     <div className="new-journal-header">

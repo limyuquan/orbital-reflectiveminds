@@ -47,19 +47,20 @@ def promptOpenAI():
     #make openai call here!
     try :
         client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You're a journaling assistant."},
-                {"role": "user", "content": "Prompt 1"}
-                ],
-                )
-        print(response)
+                {"role": "user", "content": "Prompt"}
+            ]
+        )
+        
         print(response.choices[0])
-        print(response.choices[0].message['content'])
+        print(response.choices[0].message)
 
         return {
-            "status":response.choices[0].message['content']
+            "status":response.choices[0].message.content
         }
 
     except openai.RateLimitError as e:
