@@ -32,6 +32,7 @@ def get_previous_journals():
     user_id = data['user_id']
     cur_page = data['curPage']
     filtered_tags = data['filtered_tags']
+    search_query = data['search_query']
 
     # Use SQLAlchemy's text() for raw SQL
     with db.engine.connect() as connection:
@@ -47,16 +48,19 @@ def get_previous_journals():
 
     filteredEntriesArray = []
     for entry in all_journals:
-        if (len(filtered_tags) == 0):  #no filters
-            break;
+        if (len(filtered_tags) != 0):  #no filters
+            tag_array = entry['tags'].split(',')
         
-        tag_array = entry['tags'].split(',')
-        
-        entry_tags_set = set(tag_array)
-        filtered_tags_set = set(filtered_tags)
+            entry_tags_set = set(tag_array)
+            filtered_tags_set = set(filtered_tags)
 
-        if filtered_tags_set.issubset(entry_tags_set):
+            if filtered_tags_set.issubset(entry_tags_set):
+                    filteredEntriesArray.append(entry)
+        elif (search_query != ""):
+            if search_query.lower() in entry['title'].lower() or search_query.lower() in entry['content'].lower():
                 filteredEntriesArray.append(entry)
+        
+        
         
     maxPages = len(all_journals) // 5 + 1
     start_index = cur_page * 5 - 5

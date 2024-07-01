@@ -26,6 +26,9 @@ function PreviousEntries({ userId }) {
   const [bookmarkEntries, setBookmarkEntries] = useState([]);
   const [isBookmarked, setIsBookmarked] = useState([]);
 
+  const [isFocused, setButtonIsFocused] = useState(false);
+  const [buttonText, setButtonText] = useState(''); // Add a state variable for the text
+
   const JournalTagsMap = new Map();
 
   useEffect(() => {
@@ -47,6 +50,27 @@ function PreviousEntries({ userId }) {
       bookmarkEntry(isBookmarked);
     }
   }, [journalEntriesLoaded]);
+
+  const handleFocus = () => {
+    setButtonIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setButtonIsFocused(false);
+  };
+
+  const handleChange = (event) => { // Add an event handler for the text change
+    setButtonText(event.target.value);
+  };
+
+
+  const handleKeyDown = (event) => { // Add an event handler for the key down event
+    if (event.key === 'Enter') {
+      getJournalEntries();
+      setButtonIsFocused(false);
+      setButtonText('');
+    }
+  };
 
   function postBookmarkEntries() {
     let newIsBookmarked = [...isBookmarked].map(num => num.toString());
@@ -77,6 +101,7 @@ function PreviousEntries({ userId }) {
       curPage: curPage,
       user_id: userId,
       filtered_tags: filteredTags,
+      search_query: buttonText,
     }
     setShowLoader(true);
 
@@ -248,9 +273,12 @@ function PreviousEntries({ userId }) {
           <h1 className="previous-entries-title">Previous Entries</h1>
           <div className='previous-entries-journaltag-search'>
             <JournalTag JournalTagsMap={JournalTagsMap} filteredTags={filteredTags} setFilteredTags={setFilteredTags} />
-            <SearchButton />
+            <div className="search-button">
+                {isFocused && <input type="text" onBlur={handleBlur} onChange={handleChange} onKeyDown={handleKeyDown} value={buttonText} autoFocus />}
+                {!isFocused && <i className="fas fa-search" onClick={handleFocus}> </i>}
+            </div>
           </div>
-        </div>
+      </div>
         <div className="all-entries-container">
           {entries.map((entry) => {
             console.log(entry.entryID-1)

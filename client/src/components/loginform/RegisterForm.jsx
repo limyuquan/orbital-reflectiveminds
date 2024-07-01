@@ -27,6 +27,7 @@ const RegisterForm = (props) => {
     event.preventDefault();
     setShowLoader(true);
     if (userState.newPassword.length < 8) {
+      setShowLoader(false);
       alert("Invalid password. Password must be at least 8 characters long.");
     } else {
       fetch(`${apiUrl}/api/auth/register`, {
@@ -47,8 +48,9 @@ const RegisterForm = (props) => {
       })
       .catch(error => {
         console.error('Error:', error);
-        alert("Error encountered");
         setShowLoader(false);
+        alert("Error encountered");
+        
       });
       // axios
       //   .post(`${apiUrl}/api/auth/register`, userState, {
