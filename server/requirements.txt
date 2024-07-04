@@ -6,4 +6,4 @@ pymysql
 werkzeug
 gunicorn
 openai
-
+pytest
