@@ -10,10 +10,11 @@
 
 .login-form {
     width: 420px;
-    height: 450px;
+    height: 500px;
     border: 1px solid #ddd; /* Subtle color */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);    
+    background-color: #e3e3e7;
 }
 
 .title {
@@ -71,11 +72,11 @@
 }
 
 .login-button:hover {
-    transform: scale(1.01);
+    transform: scale(1.02);
 }
   
 .login-button:active {
-    transform: scale(0.99);
+    transform: scale(0.98);
 }
 
 .register-link {

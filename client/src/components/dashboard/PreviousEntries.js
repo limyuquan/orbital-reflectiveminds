@@ -312,8 +312,8 @@ function PreviousEntries({ userId }) {
         </div>
 
         <div className="pagination-container">
-          {curPage !== 1 && <div className="pagination-btn" onClick={() => setCurPage(curPage - 1)}><i className="fas fa-arrow-left" /></div>}
-          {(curPage !== maxPages) && <div className="pagination-btn" onClick={() => setCurPage(curPage + 1)}><i className="fas fa-arrow-right" /></div>}
+          {curPage !== 1 && <div className="pagination-btn" onClick={() => setCurPage(curPage - 1)}><i className="fas fa-angle-left" /></div>}
+          {(curPage !== maxPages) && <div className="pagination-btn" onClick={() => setCurPage(curPage + 1)}><i className="fas fa-angle-right" /></div>}
         </div>
       </div>
     </div>
