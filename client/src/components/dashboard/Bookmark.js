@@ -7,11 +7,17 @@ const Bookmark = (props) => {
     return (
         <div>
             {props.isBookmarked.indexOf(props.entryId) !== -1 ? (
-                <div onClick={() => props.addEntry(props.entryId)} className="entry-bookmark">
+                <div onClick={(e) => {
+                    props.addEntry(props.entryId)
+                    e.stopPropagation()
+                }} className="entry-bookmark">
                     <IoBookmark size={22} style = { {color: 'red'} }/> 
                 </div>
             ) : (
-                <div onClick={() => props.addEntry(props.entryId)} className="entry-bookmark">
+                <div onClick={(e) => {
+                    props.addEntry(props.entryId)
+                    e.stopPropagation()
+                    }} className="entry-bookmark">
                     <IoBookmarkOutline size={22}/> 
                 </div>
             )}

@@ -42,7 +42,10 @@ def get_previous_journals():
         stmt_bookmark = text("SELECT bookmark FROM users WHERE userId = :user_id")
         result = connection.execute(stmt_bookmark, {"user_id": user_id}).fetchone()
 
-        bookmark_value = sorted(map(int, result[0].split(',')), reverse=True) if result[0] else []
+        if result is not None and result[0] is not None:
+            bookmark_value = sorted(map(int, result[0].split(',')), reverse=True)
+        else:
+            bookmark_value = []
 
     all_journals = [{"id": index, "entryID": entryID,  "title": title, "date": date.strftime("%Y-%m-%d"), "content": content,"emotion": emotion,"tags": tags} for index, (entryID, title, date, content, emotion, tags) in enumerate(entries)]
 
@@ -62,7 +65,7 @@ def get_previous_journals():
         
         
         
-    maxPages = len(all_journals) // 5 + 1
+    maxPages = (len(all_journals) - 1)// 5 + 1
     start_index = cur_page * 5 - 5
     end_index = min(cur_page * 5, len(all_journals))
     journals = all_journals[start_index:end_index] 

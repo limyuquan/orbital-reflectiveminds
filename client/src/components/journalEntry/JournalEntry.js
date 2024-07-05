@@ -22,6 +22,12 @@ function JournalEntry() {
 
     const location = useLocation();
     const userId = location.state?.userId || null;
+    const oldTitle = location.state?.entry?.title || '';
+    const oldContent = location.state?.entry?.content || '';
+    const oldEmotion = location.state?.entry?.emotion || '';
+    const oldJournalTags = location.state?.entry?.journalTags || '';
+    const oldJournalId = location.state?.entry?.entryID || null;
+
 
     useEffect(() => {
         if (userId === null) {
@@ -33,12 +39,12 @@ function JournalEntry() {
     const [openAIPrompt, setOpenAIPrompt] = useState('');
     const [isPrompt, setIsPrompt] = useState(false);
 
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [emotion, setEmotion] = useState('');
+    const [title, setTitle] = useState(oldTitle || '');
+    const [content, setContent] = useState(oldContent || '');
+    const [emotion, setEmotion] = useState(oldEmotion || '');
 
     const [tagName, setTagName] = useState('');
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState(oldJournalTags || []);
     const [isTagInput, setIsTagInput] = useState(true);
 
     const [emotionMenu, setEmotionMenu] = useState(false);
@@ -117,11 +123,33 @@ function JournalEntry() {
             title: title,
             content: content,
             emotion: emotion,
-            journalTags: tags.join(',')
+            journalTags: tags.join(','),
+            entry_id: oldJournalId
         }
 
         const apiUrl = process.env.REACT_APP_API_URL;
         setShowLoader(true);
+        
+        if (oldJournalId) {
+            fetch(`${apiUrl}/api/entry/update-journal`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(journalEntry)
+            }).then(() => {
+                resetFields();
+                alert('Journal entry updated successfully!');
+                navigate('/dashboard', { state: { userId: userId } });
+                setShowLoader(false);
+            }
+            ).catch((error) => {
+                console.error('Error:', error);
+
+            });
+            return;
+        }
+
         fetch(`${apiUrl}/api/entry/submit-new-journal`, {
             method: 'POST',
             headers: {
