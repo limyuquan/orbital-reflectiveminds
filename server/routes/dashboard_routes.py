@@ -101,3 +101,53 @@ def get_emotion_stats():
     emotion_list = [{"text": emotion, "value": count} for emotion, count in emotion_dict.items()]
 
     return emotion_list
+
+@dashboard_routes.route('/get-active-days', methods=['POST'])
+def get_active_days():
+    data = request.get_json()
+    user_id = data['user_id']
+    year = data['year']
+    month = data['month']
+    with db.engine.connect() as connection:
+        stmt = text("""
+            SELECT DISTINCT EXTRACT(DAY FROM startDate) as activeDay
+            FROM userEntry
+            WHERE userId = :user_id
+            AND EXTRACT(YEAR FROM startDate) = :year
+            AND EXTRACT(MONTH FROM startDate) = :month
+            ORDER BY activeDay
+        """)
+        result = connection.execute(stmt, {"user_id": user_id, "year": year, "month": month}).fetchall()
+
+    # Extracting days from the result
+    active_days = [int(row[0]) for row in result]
+    return {"active_days": active_days}
+
+@dashboard_routes.route('/get-entries-with-date', methods=['POST'])
+def get_entries_with_date():
+    try:
+        data = request.get_json()
+        user_id = data['user_id']
+        year = data['year']
+        month = data['month']
+        day = data['day']
+        with db.engine.connect() as connection:
+            stmt = text("""
+                SELECT entryId as entryID, title, startDate as date, body as content, emotions as emotion, journal_tags as tags
+                FROM userEntry
+                WHERE userId = :user_id
+                AND EXTRACT(YEAR FROM startDate) = :year
+                AND EXTRACT(MONTH FROM startDate) = :month
+                AND EXTRACT(DAY FROM startDate) = :day
+                ORDER BY entryId DESC
+            """)
+            entries = connection.execute(stmt, {"user_id": user_id, "year": year, "month": month, "day": day}).fetchall()
+            
+        all_journals = [{"entryID": entryID, "title": title, "date": date.strftime("%Y-%m-%d"), "content": content,"emotion": emotion,"tags": tags} for entryID, title, date, content, emotion, tags in entries]
+        return all_journals
+    except:
+        return {"error": "An error occurred while fetching entries with date"}
+    
+
+    
+                            

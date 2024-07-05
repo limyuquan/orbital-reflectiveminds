@@ -1,0 +1,52 @@
+.calendar-exit {
+    display: flex;
+    align-items: center;
+    color: #80d2ff;
+    font-size: 22px;
+    margin: 40px 0 0 0px;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out; /* Add this line */
+  }
+  
+  .calendar-exit:hover {
+    transform: scale(1.01); /* Add this line */
+  }
+  
+  .calendar-header {
+    width: 70%;
+    display: flex;
+    margin: 5rem auto 0 auto;
+    justify-content: space-between; /* This will align children to the edges */
+    align-items: center; /* This will vertically center the children */
+  }
+
+  .calendar-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    /* Adjust margin to 0 to ensure it centers properly */
+    margin: 0;
+    /* Ensure it takes the necessary space but centers the text */
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  .calendar-arrow{
+    font-size: 30px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: transform 0.2s ease-in-out;
+  }
+
+.calendar-arrow:hover {
+    transform: scale(1.3);
+    color: #80d2ff;
+}
+
+.calendar-entries{
+    margin-top: 6rem;
+}
+
+.calendar-tag{
+    margin-top:
+}

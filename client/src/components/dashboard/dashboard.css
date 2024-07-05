@@ -76,7 +76,7 @@
   justify-content: center;
   gap: 20px;
   color: white;
-  background-color: rgb(66, 225, 249);
+  background-color: rgb(157, 229, 240);
   width: 196px;
   height: 40px;
   letter-spacing: 0px;
@@ -191,19 +191,15 @@
 
 .entry-title-tags {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  min-width: fit-content;
 }
 
 .entry-tags {
+  margin-left: 1rem;
   display: flex;
-  margin-left: 1cm;
+  align-items: center;
 }
 
 .tag-row {
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .tag {
@@ -246,6 +242,7 @@
   padding: 10px 30px 40px 30px;
   margin-bottom: 36px;
   transition: transform 0.1s ease-in-out; /* Add this line */
+  background-color: #e3e4ee; /* Change the background color */
 }
 
 .entry:hover {
@@ -295,8 +292,8 @@
   cursor: pointer;
   border-radius: 15px;
   font-size: 24px;
-  background-color: rgb(66, 225, 249);
-  padding: 5px 10px;
+  background-color: rgb(196, 203, 231);
+  padding: 5px 20px;
   box-shadow: 0 0 1 0px rgba(0, 123, 255, 0.25);
   transition: transform 0.3s ease;
 }
@@ -309,10 +306,14 @@
   transform: scale(0.86);
 }
 
+.wordcloud-container{
+  margin-top: 70px;
+}
 .wordcloud-container > div > svg {
   margin: 0 auto;
-  margin-bottom: 50px;
+  margin-bottom: 0px;
 }
+
 
 @keyframes fadeIn {
   0% {
@@ -325,8 +326,34 @@
 
 .wordcloud-title {
   text-align: center;
-  font-size: 20px;
   font-weight: 200;
   letter-spacing: 1px;
-  margin-top: 75px;
+}
+
+.dashboard-mid {
+  display: flex;
+  justify-content: space-between; /* Adjusts the space between the left and right components */
+  align-items: center; /* Aligns items vertically in the center, if needed */
+}
+
+.dashboard-left, .dashboard-right {
+  flex-grow: 1; /* Optional: Allows both sides to grow and take up equal space */
+}
+
+.MuiDateCalendar-root{
+  background-color: #ebebeb;
+  border-radius: 10px;
+  transition: box-shadow 0.5s ease; /* Add this line for the transition */
+}
+
+.MuiDateCalendar-root:hover {
+  box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.2); /* Adjust the shadow color/size as needed */
+  transform: scale(1.02); /* Slightly increase the size */
+  transition: box-shadow 0.5s ease, transform 0.3s ease; /* Add transform to the transition */
+}
+
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

@@ -173,7 +173,7 @@ function JournalEntry() {
             <div>
                 {showLoader && <Loader />}
             </div>
-            <div className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left"></i>Dashboard</div>
+            <div className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left journal-exit"></i>Dashboard</div>
             <div className="new-title">NEW JOURNAL ENTRY</div>
             <div className='new-prompt'>
                 {isPrompt && (<> <div className='prompt-set-title'>Prompt... <div className='set-prompt-title-button' onClick={() => setTitle(openAIPrompt)}>Set as Title</div></div>  <br/> <br  />{openAIPrompt}</>)}
