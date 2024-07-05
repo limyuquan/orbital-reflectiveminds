@@ -6,6 +6,7 @@ import JournalEntry from './components/journalEntry/JournalEntry'; // import you
 import Index from './components/index/Index';
 import LoginForm from './components/loginform/LoginForm';
 import RegisterForm from './components/loginform/RegisterForm';
+import CalendarDate from './components/calendarDate/CalendarDate';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/journalEntry" element={<JournalEntry />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
+          <Route path="/journal-that-day" element={<CalendarDate />} />
         </Routes>
       </Router>
     </div>

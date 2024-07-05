@@ -3,7 +3,7 @@ import './dashboard.css';
 import PreviousEntries from './PreviousEntries'; // Import the PreviousEntries component
 import { useNavigate, useLocation } from 'react-router-dom'; // Import the useHistory hook
 import WordCloud from './WordCloud';
-
+import DateCalendarServerRequest from './calendar';
 
 function Dashboard() {
     const location = useLocation();
@@ -36,7 +36,18 @@ function Dashboard() {
                 <p>New Entry</p>
             </div>
         </div>
-        <WordCloud userId={userId} />
+        <div className="dashboard-mid">
+          <div className="dashboard-left">
+            <WordCloud userId={userId} />
+          </div>
+          <div className="dashboard-right">
+            <DateCalendarServerRequest userId={userId} />
+          </div>
+        </div>
+        
+        
+        
+        
         <PreviousEntries userId={userId}/> 
       </div>
     </div>

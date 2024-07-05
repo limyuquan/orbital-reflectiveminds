@@ -45,7 +45,8 @@ function WordCloud({userId}) {
     }
   return (
     <div className="wordcloud-container">
-        <div className='wordcloud-title'>Your Emotional Landscape, Visualised.</div>
+        {words.length > 0 && <div className='wordcloud-title'>How you felt</div>}
+        {words.length === 0 && <div className='wordcloud-title'>Create your first entry now!</div>}
         <ReactWordcloud words={words} options={options} size={[700, 400]} />
     </div>
     

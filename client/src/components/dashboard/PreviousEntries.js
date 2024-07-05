@@ -3,12 +3,16 @@ import './dashboard.css';
 import SearchButton from './SearchButton';
 import JournalTag from './JournalTags';
 import Loader from '../shared/loader';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import the useHistory hook
 
 import Bookmark from './Bookmark';
 import BookmarkDropdownButton from './BookmarkDropdownButton';
 import UnpinBookmark from './UnpinBookmark';
 
 function PreviousEntries({ userId }) {
+
+  const navigate = useNavigate(); // Get the navigate function
+
   const [entries, setEntries] = useState([]);
   const [allEntries, setAllEntries] = useState([]);
 
@@ -224,6 +228,10 @@ function PreviousEntries({ userId }) {
     bookmarkEntry(newIsBookmarked, index);
   }
 
+  const handleEditEntryClick = (entry, e) => {
+    e.stopPropagation();
+    navigate('/journalEntry', { state: { userId: userId, entry: entry} }); // Navigate to the newEntry page
+};
 
   convertEntriesToStringArray(tags);
   return (
@@ -281,9 +289,8 @@ function PreviousEntries({ userId }) {
       </div>
         <div className="all-entries-container">
           {entries.map((entry) => {
-            console.log(entry.entryID-1)
             return (
-              <div key={entry.entryID-1} className="entry">
+              <div key={entry.entryID-1} className="entry" onClick={(e) => handleEditEntryClick(entry, e)}>
                 <div className="entry-header">
 
                   <div className='entry-title-tags'>
@@ -305,8 +312,8 @@ function PreviousEntries({ userId }) {
         </div>
 
         <div className="pagination-container">
-          {curPage !== 1 && <div className="pagination-btn" onClick={() => setCurPage(curPage - 1)}><i className="fas fa-arrow-left" /></div>}
-          {(curPage !== maxPages) && <div className="pagination-btn" onClick={() => setCurPage(curPage + 1)}><i className="fas fa-arrow-right" /></div>}
+          {curPage !== 1 && <div className="pagination-btn" onClick={() => setCurPage(curPage - 1)}><i className="fas fa-angle-left" /></div>}
+          {(curPage !== maxPages) && <div className="pagination-btn" onClick={() => setCurPage(curPage + 1)}><i className="fas fa-angle-right" /></div>}
         </div>
       </div>
     </div>

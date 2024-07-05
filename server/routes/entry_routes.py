@@ -41,6 +41,34 @@ def submit_new_journal():
     return {
         "status": "success"
     }
+    
+@entry_routes.route('/update-journal', methods=['POST'])
+def update_journal():
+    data = request.get_json()
+    user_id = data['user_id']
+    entry_id = data['entry_id']
+    title = data['title']
+    content = data['content']
+    emotion = data['emotion']
+    journalTags = data['journalTags']
+    date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    try:
+        with db.engine.connect() as connection:
+            stmt = text("UPDATE userEntry SET startDate = :date, title = :title, body = :content, emotions = :emotion, journal_tags = :journalTags WHERE entryId = :entry_id")
+            connection.execute(stmt, {"date":date, "title":title, "content":content, "emotion":emotion, "journalTags":journalTags, "entry_id":entry_id})
+            stmt = text("UPDATE users SET last_entry = :date WHERE userId = :user_id")
+            connection.execute(stmt, {"date":date, "user_id":user_id})
+            connection.commit()
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }
+        
+    return {
+        "status": "success"
+    }
 
 
 @entry_routes.route('/open-ai', methods=['POST'])
