@@ -31,6 +31,7 @@ def submit_new_journal():
             stmt = text("UPDATE users SET last_entry = :date WHERE userId = :user_id")
             connection.execute(stmt, {"date":date, "user_id":user_id})
             connection.commit()
+            
     except Exception as e:
         return {
             "status": "error",
@@ -56,9 +57,6 @@ def promptOpenAI():
             ]
         )
         
-        print(response.choices[0])
-        print(response.choices[0].message)
-
         return {
             "status":response.choices[0].message.content
         }
