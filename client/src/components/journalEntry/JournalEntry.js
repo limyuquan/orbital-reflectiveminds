@@ -28,7 +28,6 @@ function JournalEntry() {
     const oldJournalTags = location.state?.entry?.journalTags || '';
     const oldJournalId = location.state?.entry?.entryID || null;
 
-
     useEffect(() => {
         if (userId === null) {
             navigate('/login');
@@ -174,9 +173,9 @@ function JournalEntry() {
                 {showLoader && <Loader />}
             </div>
             <div className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left journal-exit"></i>Dashboard</div>
-            <div className="new-title">NEW JOURNAL ENTRY</div>
+            <div className="new-title">{oldTitle === "" ? "NEW JOURNAL ENTRY" : "EDIT JOURNAL ENTRY"}</div>
             <div className='new-prompt'>
-                {isPrompt && (<> <div className='prompt-set-title'>Prompt... <div className='set-prompt-title-button' onClick={() => setTitle(openAIPrompt)}>Set as Title</div></div>  <br/> <br  />{openAIPrompt}</>)}
+                {isPrompt && (<> <div className='prompt-set-title'>Today's Journaling Prompt <div className='set-prompt-title-button' onClick={() => setTitle(openAIPrompt)}>Set as Title</div></div>  <br/> <br  />{openAIPrompt}</>)}
                 
             </div>
 
@@ -260,7 +259,7 @@ function JournalEntry() {
 
                     <Template chooseTemplate={chooseTemplate} />
 
-                    <input id="button" type="submit" value="Create" onClick={handleSubmit} />
+                    <input id="button" type="submit" value={oldTitle ? "Edit" : "Create"} onClick={handleSubmit} />
                 </form>
 
             </div>

@@ -98,6 +98,7 @@ function CalendarDate() {
 
     return (
         <div className="dashboard">
+        {showLoader && <Loader />}
         <h1 className="app-title calendar-exit" onClick={handleReturnDashboard}>REFLECTIVE MINDS</h1>
         <div className="calendar-header">
             <i className="fas fa-angle-left calendar-arrow" onClick={decrementDay}></i>

@@ -12,7 +12,7 @@ import BookmarkDropdownButton from './BookmarkDropdownButton';
 import UnpinBookmark from './UnpinBookmark';
 import BookmarkDropdownMenu from './BookmarkDropdownMenu';
 
-function PreviousEntries({ userId }) {
+function PreviousEntries({ userId, getStreakCount }) {
 
   const navigate = useNavigate(); // Get the navigate function
 
@@ -41,11 +41,7 @@ function PreviousEntries({ userId }) {
 
   useEffect(() => {
     getJournalEntries();
-  }, [curPage]); // Add this useEffect hook 
-
-  useEffect(() => {
-    getJournalEntries();
-  }, [filteredTags])
+  }, [curPage, filteredTags]);
 
   const handleFocus = () => {
     setButtonIsFocused(true);
@@ -66,6 +62,15 @@ function PreviousEntries({ userId }) {
       setButtonText('');
     }
   };
+
+  function getDatesFromEntries(entries) {
+    let dates = [];
+    entries.forEach(entry => {
+      let date = new Date(entry.date);
+      dates.push(date);
+    });
+    return getStreakCount(dates);
+  }
 
   function getJournalEntries() {
     // Replace this with a fetch call to the server
@@ -95,6 +100,7 @@ function PreviousEntries({ userId }) {
         setShowLoader(false);
         setJournalEntriesLoaded(true);
         bookmarkEntriesSetup(data.all_journals)
+        getDatesFromEntries(data.all_journals)
       })
       .catch(error => {
         console.error('Error:', error);
@@ -211,7 +217,7 @@ function PreviousEntries({ userId }) {
   return (
     <div>
 
-      <BookmarkDropdownMenu bookmarkEntries={bookmarkEntries} showTags={showTags} bookmarkButton={bookmarkButton} />
+      <BookmarkDropdownMenu bookmarkEntries={bookmarkEntries} showTags={showTags} bookmarkButton={bookmarkButton} userId={userId} handleEditEntryClick={handleEditEntryClick}/>
 
       <div className="previous-entries-container">
         {showLoader && <Loader />}

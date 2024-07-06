@@ -16,7 +16,7 @@ const BookmarkDropdownMenu = (props) => {
                         <div className="all-entries-container">
                             {props.bookmarkEntries.map(bookmarkEntry=> {
                                 return (
-                                    <div key={bookmarkEntry.id} className="entry">
+                                    <div key={bookmarkEntry.id} className="entry" onClick={(e) => {props.handleEditEntryClick(bookmarkEntry, e)}}>
                                         <div className="entry-header">
 
                                             <div className='entry-title-tags'>

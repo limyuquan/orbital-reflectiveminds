@@ -10,10 +10,11 @@
 
 .register-form {
     width: 420px;
-    height: 450px;
+    height: 500px;
     border: 1px solid #ddd; /* Subtle color */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);  
+    background-color: rgb(244, 243, 253);
 }
 
 .title {
@@ -65,7 +66,7 @@
     background: white;
     width: 70%;
     height: 45px;
-    margin-top: 10px;
+    margin-top: 40px;
     border: none;
     outline: none;
     border-radius: 40px;
@@ -75,6 +76,7 @@
     font-weight: 600;
     left: 50%;
     background: linear-gradient(60deg, rgb(66, 225, 249), rgb(113, 89, 193));
+    background-size: 200% 200%;
     animation: GradientWave 3s ease infinite;
     transition: transform 0.1s ease;
     bottom: 1cm;
@@ -87,11 +89,12 @@
   }
 
 .register-button:hover {
-    transform: scale(1.01);
+    transform: scale(1.03);
+    cursor: pointer;
 }
 
 .register-button:active {
-    transform: scale(0.99);
+    transform: scale(0.98);
 }
 
 .back {
@@ -113,6 +116,7 @@
 
 .back:hover {
     transform: scale(1.1);
+    cursor: pointer;
 }
 
 .back:active {
