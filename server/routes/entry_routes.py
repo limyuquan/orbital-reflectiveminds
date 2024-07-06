@@ -80,7 +80,7 @@ def promptOpenAI():
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You're a journaling assistant."},
+                {"role": "system", "content": "You're a journaling assistant. Generate a unique short journaling prompt < 15 words for a user who wants to write about their day"},
                 {"role": "user", "content": "Prompt"}
             ]
         )

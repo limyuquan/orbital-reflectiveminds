@@ -14,7 +14,7 @@
     border: 1px solid #ddd; /* Subtle color */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);    
-    background-color: #e3e3e7;
+    background-color: #cef0ff;
 }
 
 .title {
@@ -69,6 +69,8 @@
     font-weight: 600;
     left: 50%;
     background: linear-gradient(60deg, rgb(66, 225, 249), rgb(113, 89, 193));
+    background-size: 200% 200%;
+    animation: GradientWave 3s ease infinite;
 }
 
 .login-button:hover {

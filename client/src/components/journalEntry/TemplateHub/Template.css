@@ -3,10 +3,12 @@
   overflow-x: auto; /* Enable horizontal overflow */
   white-space: nowrap; /* Prevent wrapping of buttons */
   width: 93%;
+  margin-top: 5px;
+  padding-bottom: 10px;
 }
 
 #template-button {
-  background-color: #ddd; /* Grey background color */
+  background-color: #ebcaca; /* Grey background color */
   color: black; /* Black text color */
   border: none; /* Remove border */
   padding: 10px 20px; /* Adjust padding */
