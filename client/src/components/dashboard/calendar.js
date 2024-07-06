@@ -21,7 +21,7 @@ function fetchDatesInMonth(user_id, date, { signal }) {
         month: date.month() + 1,
         year: date.year(),
       };
-      console.log(user_id)
+      //console.log(user_id)
       const apiUrl = process.env.REACT_APP_API_URL;
   
       fetch(`${apiUrl}/api/dashboard/get-active-days`, {

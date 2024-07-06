@@ -4,17 +4,17 @@ import { RiUnpinLine } from "react-icons/ri";
 import './dashboard.css';
 
 const UnpinBookmark = (props) => {
+    
+    const handleBookmarkClick = (e) => {
+        props.bookmarkButton(props.entryId);
+        e.stopPropagation();
+    };
+
     return (
         <div>
-            {props.isBookmarked.indexOf(props.entryId) !== -1 ? (
-                <div onClick={() => props.addEntry(props.entryId)} className="entry-bookmark">
-                    <RiUnpinLine size={22} style = { {color: 'red'} }/> 
-                </div>
-            ) : (
-                <div onClick={() => props.addEntry(props.entryId)} className="entry-bookmark">
-                    <RiUnpinLine size={22}/> 
-                </div>
-            )}
+            <div onClick={handleBookmarkClick} className="entry-bookmark">
+                <RiUnpinLine size={22} style = { {color: 'red'} }/> 
+            </div>
         </div>
         )
 }

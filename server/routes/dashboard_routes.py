@@ -26,6 +26,31 @@ def post():
         "message": "Bookmarks updated successfully"
     }
 
+
+@dashboard_routes.route('/put-bookmark', methods=['PUT'])
+def put_bookmark():
+    data = request.get_json()
+    user_id = data['user_id']
+    entry_id = data['entry_id']
+
+    try:
+
+        with db.engine.connect() as connection:
+            stmt = text("UPDATE userEntry SET bookmark = NOT bookmark WHERE userId = :user_id AND entryId = :entry_id")
+            connection.execute(stmt, {'user_id': user_id, 'entry_id': entry_id})
+            connection.commit()
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }
+    
+    return {
+        "message": "Bookmarks updated successfully"
+    }
+
+
 @dashboard_routes.route('/get-entries', methods=['POST'])
 def get_previous_journals():
     data = request.get_json()
@@ -36,7 +61,7 @@ def get_previous_journals():
 
     # Use SQLAlchemy's text() for raw SQL
     with db.engine.connect() as connection:
-        stmt = text("SELECT entryId as entryID, title, startDate as date, body as content, emotions as emotion, journal_tags as tags FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
+        stmt = text("SELECT entryId as entryID, title, startDate as date, body as content, emotions as emotion, journal_tags as tags, bookmark as bookmark FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
         entries = connection.execute(stmt, {"user_id":user_id}).fetchall()
 
         stmt_bookmark = text("SELECT bookmark FROM users WHERE userId = :user_id")
@@ -47,7 +72,7 @@ def get_previous_journals():
         else:
             bookmark_value = []
 
-    all_journals = [{"id": index, "entryID": entryID,  "title": title, "date": date.strftime("%Y-%m-%d"), "content": content,"emotion": emotion,"tags": tags} for index, (entryID, title, date, content, emotion, tags) in enumerate(entries)]
+    all_journals = [{"id": index, "entryID": entryID,  "title": title, "date": date.strftime("%Y-%m-%d"), "content": content,"emotion": emotion,"tags": tags, "bookmark": bookmark} for index, (entryID, title, date, content, emotion, tags, bookmark) in enumerate(entries)]
 
     filteredEntriesArray = []
     for entry in all_journals:
