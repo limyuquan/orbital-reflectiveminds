@@ -5,27 +5,6 @@ from db import db
 
 dashboard_routes = Blueprint('dashboard_routes', __name__)
 
-@dashboard_routes.route('/post-bookmark-entries', methods=['POST'])
-def post():
-    data = request.get_json()
-    user_id = data['user_id']
-    bookmark_entries = data['bookmark_entries']
-
-    bookmark_entries_str = ','.join(bookmark_entries) if len(bookmark_entries) > 0 else None
-
-    with db.engine.connect() as connection:
-        if bookmark_entries_str is None:
-            stmt = text("UPDATE users SET bookmark = NULL WHERE userId = :user_id")
-            connection.execute(stmt, {"user_id": user_id})
-        else:
-            stmt = text("UPDATE users SET bookmark = :bookmark_entries WHERE userId = :user_id")
-            connection.execute(stmt, {"bookmark_entries": bookmark_entries_str, "user_id": user_id})
-        connection.commit()
-        
-    return {
-        "message": "Bookmarks updated successfully"
-    }
-
 
 @dashboard_routes.route('/put-bookmark', methods=['PUT'])
 def put_bookmark():
@@ -64,14 +43,6 @@ def get_previous_journals():
         stmt = text("SELECT entryId as entryID, title, startDate as date, body as content, emotions as emotion, journal_tags as tags, bookmark as bookmark FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
         entries = connection.execute(stmt, {"user_id":user_id}).fetchall()
 
-        stmt_bookmark = text("SELECT bookmark FROM users WHERE userId = :user_id")
-        result = connection.execute(stmt_bookmark, {"user_id": user_id}).fetchone()
-
-        if result is not None and result[0] is not None:
-            bookmark_value = sorted(map(int, result[0].split(',')), reverse=True)
-        else:
-            bookmark_value = []
-
     all_journals = [{"id": index, "entryID": entryID,  "title": title, "date": date.strftime("%Y-%m-%d"), "content": content,"emotion": emotion,"tags": tags, "bookmark": bookmark} for index, (entryID, title, date, content, emotion, tags, bookmark) in enumerate(entries)]
 
     filteredEntriesArray = []
@@ -101,7 +72,6 @@ def get_previous_journals():
         "currentPage": cur_page,
         "journals": journals if len(filteredEntriesArray) == 0 and len(filtered_tags) == 0 else filteredEntriesArray[start_index:end_index],
         "all_journals": all_journals[:],
-        "bookmark": bookmark_value,
         "tags": tags
     }
     
