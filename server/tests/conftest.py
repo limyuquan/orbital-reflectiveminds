@@ -4,6 +4,8 @@ from app import app
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Base
+from db import init_database
+
 
 # Define the database URL for SQLite in-memory
 TEST_DATABASE_URL = "sqlite:///:memory:"

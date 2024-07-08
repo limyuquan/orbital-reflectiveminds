@@ -33,6 +33,8 @@ def test_new_user(session):
 
     session.rollback()
 
+    #print("New User created, passed!")
+
 
 def test_user_entry(session):
     '''
@@ -68,66 +70,7 @@ def test_user_entry(session):
 
     session.rollback() 
 
-
-#test failures
-@pytest.mark.xfail(raises=IntegrityError)
-def test_user_entry_no_title(session):
-    '''
-    GIVEN a new user entry model
-    WHEN new user entry created without title
-    CHECK IntegrityError is raised due to NOT NULL constraint
-    '''
-    try:
-        userEntry = UserEntry(
-            entryId=1,
-            userId=1,  # Ensure a valid userId here based on your setup
-            title=None,  # This will cause IntegrityError due to NOT NULL constraint
-            body="test-body",
-            emotions="emotion",
-            startDate=date.today(),
-            journal_tags="tags",
-            bookmark=False
-        )
-        session.add(userEntry)
-        session.commit()
-    except IntegrityError as e:
-        assert "NOT NULL constraint failed: userEntry.title" in str(e)
-    except PendingRollbackError as e:
-        session.rollback()
-        raise e  
-    
-    # Always ensure to rollback changes to maintain a clean state
-    session.rollback()
-
-
-
-@pytest.mark.xfail(raises=IntegrityError)
-def test_user_no_email(session):
-    '''
-    GIVEN a new user model
-    WHEN new user created without email
-    CHECK IntegrityError is raised due to NOT NULL constraint
-    '''
-    try:
-        user = User(
-            userId=1,  # Optional depending on your database setup
-            username="testuser",
-            password="password",
-            email=None,  # This will cause IntegrityError due to NOT NULL constraint
-            created_at=datetime.now(),
-            last_entry=None
-        )
-        session.add(user)
-        session.commit()
-    except IntegrityError as e:
-        assert "NOT NULL constraint failed: users.email" in str(e)
-    except PendingRollbackError as e:
-        # Handle PendingRollbackError here if necessary
-        session.rollback()
-        raise e  # Re-raise the exception if needed
-
-    # Always ensure to rollback changes to maintain a clean state
-    session.rollback()
+    #print("New UserEntry created, passed!")
 
 
 #test reference?
@@ -162,3 +105,76 @@ def test_user_entry_foreign_key(session):
     assert retrieved_entry is not None
     assert retrieved_entry.user is not None
     assert retrieved_entry.user.userId == user.userId
+
+    session.rollback() 
+
+    #print("User & UserEntry linked to each other, passed!")
+
+
+#test failures
+@pytest.mark.xfail(raises=IntegrityError)
+def test_user_entry_empty_param(session):
+    '''
+    GIVEN a new user entry model
+    WHEN new user entry created without title
+    CHECK IntegrityError is raised due to NOT NULL constraint
+    '''
+    try:
+        userEntry = UserEntry(
+            entryId=1,
+            userId=1,  # Ensure a valid userId here based on your setup
+            title=None,  # This will cause IntegrityError due to NOT NULL constraint
+            body="test-body",
+            emotions="emotion",
+            startDate=date.today(),
+            journal_tags="tags",
+            bookmark=False
+        )
+        session.add(userEntry)
+        session.commit()
+    except IntegrityError as e:
+        assert "NOT NULL constraint failed: userEntry.title" in str(e)
+    except PendingRollbackError as e:
+        session.rollback()
+        raise e  
+    
+    # Always ensure to rollback changes to maintain a clean state
+    session.rollback()
+
+    #print("Throws Error if empty parameters present, passed!")
+
+
+
+@pytest.mark.xfail(raises=IntegrityError)
+def test_user_empty_param(session):
+    '''
+    GIVEN a new user model
+    WHEN new user created without email
+    CHECK IntegrityError is raised due to NOT NULL constraint
+    '''
+    try:
+        user = User(
+            userId=1,  # Optional depending on your database setup
+            username="testuser",
+            password="password",
+            email=None,  # This will cause IntegrityError due to NOT NULL constraint
+            created_at=datetime.now(),
+            last_entry=None
+        )
+        session.add(user)
+        session.commit()
+    except IntegrityError as e:
+        assert "NOT NULL constraint failed: users.email" in str(e)
+    except PendingRollbackError as e:
+        # Handle PendingRollbackError here if necessary
+        session.rollback()
+        raise e  # Re-raise the exception if needed
+
+    # Always ensure to rollback changes to maintain a clean state
+    session.rollback()
+
+
+
+
+
+

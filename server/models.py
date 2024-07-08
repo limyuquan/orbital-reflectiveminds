@@ -2,7 +2,6 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Text, Date, Boolean,
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 from datetime import datetime
-import pytest
 
 Base = declarative_base()
 
