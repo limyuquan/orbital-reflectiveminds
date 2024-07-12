@@ -14,35 +14,44 @@ function getRandomNumber(min, max) {
 }
 
 
-function fetchDatesInMonth(user_id, date, { signal }) {
-    return new Promise((resolve, reject) => {
-      const body = {
-        user_id: user_id,
-        month: date.month() + 1,
-        year: date.year(),
-      };
-      //console.log(user_id)
-      const apiUrl = process.env.REACT_APP_API_URL;
-  
-      fetch(`${apiUrl}/api/dashboard/get-active-days`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log("all journals ", data.active_dates);
-        const daysToHighlight = data.active_days;
-        resolve({ daysToHighlight });
-      })
-      .catch(error => {
-        console.error('Error:', error);
+function fetchDatesInMonth(user_id, date, { signal }, retries = 3) {
+  return new Promise((resolve, reject) => {
+    const body = {
+      user_id: user_id,
+      month: date.month() + 1,
+      year: date.year(),
+    };
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    fetch(`${apiUrl}/api/dashboard/get-active-days`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body),
+      signal: signal
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("all journals ", data.active_dates);
+      const daysToHighlight = data.active_days;
+      resolve({ daysToHighlight });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      if (retries > 0) {
+        console.log(`Retrying... attempts left: ${retries - 1}`);
+        setTimeout(() => {
+          fetchDatesInMonth(user_id, date, { signal }, retries - 1)
+            .then(resolve)
+            .catch(reject);
+        }, 2000); // Wait for 2 second before retrying
+      } else {
         reject(error);
-      });
+      }
     });
-  }
+  });
+}
 
 
 const initialValue = dayjs();
