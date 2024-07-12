@@ -1,0 +1,118 @@
+.achievements {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 30px;
+    font-family: "Roboto", sans-serif;
+  }
+
+.achievements-achievement-icon{
+    color: rgb(207, 169, 19);
+    font-size: 34px;
+}
+
+.statistics-content{
+    margin-top: 3rem;
+}
+
+.statistics-content-body{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    margin: 0 10px;
+}
+
+.achievements-back{
+    font-size: 33px;
+    margin-right: 15px;
+}
+
+.achievements-back:hover{
+    transform: scale(1.3);
+    cursor: pointer;
+}
+
+.statistics-content {
+    background-color: #ffffff; /* Light grey background */
+    border-radius: 8px; /* Rounded corners */
+    padding: 35px; /* Padding around the content */
+    margin-bottom: 40px; /* Space between sections */
+
+}
+
+.achievements-content {
+    background-color: #ffffff; /* Light grey background */
+    border-radius: 8px; /* Rounded corners */
+    padding: 35px; /* Padding around the content */
+    margin-bottom: 20px; /* Space between sections */
+  }
+  
+.achievements-content-item {
+border-bottom: 1px solid #e0e0e0; /* Light grey border */
+padding: 20px 0 7px 0; /* Padding above and below each item */
+}
+
+/* Last item doesn't have a bottom border */
+.achievements-content-item:last-child {
+border-bottom: none;
+}
+
+.statistics-content-item-title {
+font-size: 18px; /* Larger font size for titles */
+color: #333; /* Dark grey color */
+margin: 0 0 5px 0; /* Margin below the title */
+}
+
+.achievements-content-item-title {
+font-size: 18px; /* Larger font size for titles */
+color: #333; /* Dark grey color */
+margin: 0; /* Margin below the title */
+}
+
+.statistics-content-item-value {
+font-size: 24px; /* Larger font size for values */
+color: #333; /* Dark grey color */
+}
+
+.achievements-content-item-description {
+font-size: 16px; /* Medium font size for content */
+color: #666; /* Medium grey color */
+}
+
+.achievements-content-item-status {
+font-weight: bold; /* Make status text bold */
+}
+
+/* Header styling */
+.statistics-content-header {
+border-bottom: 2px solid #e0e0e0; /* Light grey border */
+padding-bottom: 10px; /* Padding below the header */
+margin-bottom: 20px; /* Space between header and content */
+}
+
+.achievements-content-header {
+border-bottom: 2px solid #e0e0e0; /* Light grey border */
+padding-bottom: 10px; /* Padding below the header */
+margin-bottom: 20px; /* Space between header and content */
+}
+
+.statistics-content-title, .achievements-content-title {
+font-size: 22px; /* Larger font size for section titles */
+color: #333; 
+}
+
+@keyframes colorCycleAchieved {
+    0% { color: #5d00ff; }
+    33% { color: #00bfff; } /* Change to a different color at 50% */
+    66% { color: #ff00f7; }
+    100% { color: #5d00ff; }
+}
+
+.achievements-content-item-status.achieved {
+    font-size: 20px; /* Larger font size for achieved status */
+    animation: colorCycleAchieved 2s infinite; /* Apply the animation */
+}
+
+.achievements-content-item-status.not-achieved {
+    color: #b7b6b6; 
+}

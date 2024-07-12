@@ -2,6 +2,7 @@
 from flask import jsonify, Blueprint, Flask, request
 from sqlalchemy import text
 from db import db
+from datetime import datetime
 
 dashboard_routes = Blueprint('dashboard_routes', __name__)
 
@@ -144,5 +145,69 @@ def get_entries_with_date():
         return {"error": "An error occurred while fetching entries with date"}
     
 
+@dashboard_routes.route('/get-achievements', methods=['POST'])
+def get_achievements():
+    data = request.get_json()
+    user_id = data['user_id']
+    with db.engine.connect() as connection:
+        stmt = text("SELECT achievements, created_at FROM users WHERE userId = :user_id")
+        result = connection.execute(stmt, {"user_id": user_id}).fetchone()
+        achievements, created_at = result
+        achievements = [] if achievements is None else achievements.split(",")
+        created_at = created_at.strftime("%Y-%m-%d %H:%M:%S") if created_at else None
+        stmt = text("SELECT entryId as entryID, title, startDate as date, body as content, emotions as emotion, journal_tags as tags, bookmark as bookmark FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
+        entries = connection.execute(stmt, {"user_id":user_id}).fetchall()
     
-                            
+    all_journals = [{"id": index, "entryID": entryID,  "title": title, "date": date.strftime("%Y-%m-%d"), "content": content,"emotion": emotion,"tags": tags, "bookmark": bookmark} for index, (entryID, title, date, content, emotion, tags, bookmark) in enumerate(entries)]
+    stats = {
+        "daysSinceJoined": get_days_since_joined(created_at),
+        "totalEntries": get_total_entries(all_journals),
+        "totalWords": get_total_words(all_journals),
+        "averageWordsPerEntry": get_average_words_per_entry(all_journals),
+        "currentStreak": get_current_streaks(all_journals)
+    }
+    return {
+        "achievements": achievements,
+        "statistics": stats
+        }
+
+def get_days_since_joined(created_at):
+    created_at = datetime.strptime(created_at, "%Y-%m-%d %H:%M:%S")
+    today = datetime.now()
+    return (today - created_at).days
+
+def get_total_words(all_journals):
+    total_words = 0
+    for journal in all_journals:
+        total_words += len(journal['content'].split())
+    return total_words
+
+def get_total_entries(all_journals):
+    return len(all_journals)
+
+def get_average_words_per_entry(all_journals):
+    total_words = get_total_words(all_journals)
+    total_entries = get_total_entries(all_journals)
+    return total_words // total_entries
+
+def get_current_streaks(journals):
+    dates = [datetime.strptime(journal['date'], "%Y-%m-%d") for journal in journals]
+    dates.sort(reverse=True)
+
+    streak = 0
+    currentDate = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+    for i, entryDate in enumerate(dates):
+        entryDate = entryDate.replace(hour=0, minute=0, second=0, microsecond=0)
+        diffDays = (currentDate - entryDate).days
+
+        if diffDays == 1:
+            streak += 1
+            currentDate = entryDate
+        elif diffDays > 1:
+            break
+        elif diffDays == 0 and i == 0:
+            streak += 1
+            currentDate = entryDate
+
+    return streak
