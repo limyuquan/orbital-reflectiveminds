@@ -9,10 +9,6 @@ import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import { useNavigate } from 'react-router-dom'; // Import the useHistory hook
 import './dashboard.css';
 
-function getRandomNumber(min, max) {
-  return Math.round(Math.random() * (max - min) + min);
-}
-
 
 function fetchDatesInMonth(user_id, date, { signal }, retries = 3) {
   return new Promise((resolve, reject) => {
@@ -77,6 +73,7 @@ export default function DateCalendarServerRequest({userId}) {
   const requestAbortController = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [highlightedDays, setHighlightedDays] = useState([1, 2, 15]);
+  const [fetching, setFetching] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (value) => {
@@ -85,14 +82,21 @@ export default function DateCalendarServerRequest({userId}) {
 }
   const fetchHighlightedDays = (date) => {
     const controller = new AbortController();
+    if (fetching) {
+      return;
+    }
+    setFetching(true);
     fetchDatesInMonth(userId, date, {
       signal: controller.signal,
     })
       .then(({ daysToHighlight }) => {
         setHighlightedDays(daysToHighlight);
         setIsLoading(false);
+        setFetching(false);
       })
       .catch((error) => {
+        setFetching(false);
+        setIsLoading(false);
         // ignore the error if it's caused by `controller.abort`
         if (error.name !== 'AbortError') {
           throw error;

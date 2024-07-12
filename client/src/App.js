@@ -7,6 +7,7 @@ import Index from './components/index/Index';
 import LoginForm from './components/loginform/LoginForm';
 import RegisterForm from './components/loginform/RegisterForm';
 import CalendarDate from './components/calendarDate/CalendarDate';
+import Achievements from './components/Achievement/Achievement';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/journal-that-day" element={<CalendarDate />} />
+          <Route path="/achievements" element={<Achievements />} />
         </Routes>
       </Router>
     </div>

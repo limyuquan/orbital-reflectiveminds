@@ -35,6 +35,7 @@ function PreviousEntries({ userId, getStreakCount }) {
 
   const [isFocused, setButtonIsFocused] = useState(false);
   const [buttonText, setButtonText] = useState(''); // Add a state variable for the text
+  const [gettingJournalEntries, setGettingJournalEntries] = useState(false);
 
   const JournalTagsMap = new Map();
   const entryRefs = useRef({});
@@ -74,6 +75,10 @@ function PreviousEntries({ userId, getStreakCount }) {
 
   function getJournalEntries() {
     // Replace this with a fetch call to the server
+    if (gettingJournalEntries) {
+      return;
+    }
+    setGettingJournalEntries(true);
     const body = {
       curPage: curPage,
       user_id: userId,
@@ -101,10 +106,12 @@ function PreviousEntries({ userId, getStreakCount }) {
         setJournalEntriesLoaded(true);
         bookmarkEntriesSetup(data.all_journals)
         getDatesFromEntries(data.all_journals)
+        setGettingJournalEntries(false);
       })
       .catch(error => {
         console.error('Error:', error);
         setShowLoader(false);
+        setGettingJournalEntries(false);
       });
   }
 
