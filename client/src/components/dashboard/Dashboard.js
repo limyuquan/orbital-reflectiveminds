@@ -57,7 +57,10 @@ function Dashboard() {
       <div className="dashboard-header">
         <div className="dashboard-header-content">
         <h1 className="app-title">REFLECTIVE MINDS</h1>
-        <div className="dashboard-achievements" title="Achievements" onClick={() => navigate('/achievements', { state: { userId: userId}})}><i class="fa fa-trophy dashboard-achievment-icon" ></i></div>
+        <div className="dashboard-header-right">
+          <div className="dashboard-achievements" title="Achievements" onClick={() => navigate('/achievements', { state: { userId: userId}})}><i class="fa fa-trophy dashboard-achievment-icon" ></i></div>
+          <div className="dashboard-logout" title="Logout" onClick={() => navigate('/login')}>Sign out</div>
+        </div>
         </div>
       </div>
       

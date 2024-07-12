@@ -17,6 +17,20 @@
   align-items: center; /* Aligns items vertically in the center */
 }
 
+.dashboard-header-right{
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.dashboard-logout{
+  cursor: pointer;
+}
+
+.dashboard-logout:hover{
+  transform: scale(1.02);
+}
+
 @keyframes glowingAchievements {
   0% { color: #afc40d; }
   33% { color: #ff5e00; } /* Change to a different color at 50% */
@@ -30,7 +44,7 @@
 }
 
 .dashboard-achievment-icon:hover {
-  transform: scale(1.15);
+  transform: scale(1.1);
   cursor: pointer;
 }
 
