@@ -111,7 +111,7 @@ describe('Logs in user', () => {
             expect(global.fetch).toHaveBeenCalled();
 
             expect(global.fetch).toHaveBeenCalledWith(
-                expect.any(String), // URL
+                expect.any(String), 
                 expect.objectContaining({
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

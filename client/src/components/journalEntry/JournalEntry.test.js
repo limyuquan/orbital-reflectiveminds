@@ -4,6 +4,7 @@ import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
 import JournalEntry from './JournalEntry';
 import Dashboard from '../dashboard/Dashboard';
 import userEvent from '@testing-library/user-event';
+import AchievementPopup from '../shared/AchievementPopup';
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
@@ -124,11 +125,6 @@ describe('Journal Entry to Dashboard', () => {
         global.alert = jest.fn();
     });
 
-    afterEach(() => {
-        jest.restoreAllMocks();
-    });
-
-
     it('Dashboard button returns to Home Page', async () => {
         navigateMock = jest.fn()
         jest.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(navigateMock);
@@ -150,27 +146,52 @@ describe('Journal Entry to Dashboard', () => {
         });
 
         expect(navigateMock).toHaveBeenCalledWith('/dashboard', { state: { userId: 123 } });
-
-        //expect(screen.getByText('REFLECTIVE MINDS')).toBeInTheDocument();
     })
 
 
-    it('Create button returns to Home Page', async () => {
+    global.fetch = jest.fn()
+        .mockImplementationOnce((url) => {
+            if (url.endsWith('/api/entry/update-journal')) {
+                return Promise.resolve({
+                    json: () => Promise.resolve({}), // Mock response for updating journal
+                });
+            }
+            else {
+                // Debug output for unmatched URLs
+                console.log('Different URL:', url);
+                return Promise.reject(new Error('Unknown URL'));
+            }
+        })
+        .mockImplementationOnce(() => {
+            return Promise.resolve({
+                json: () => Promise.resolve({
+                    new_achievements: [] // Mock response for submitting new journal
+                }),
+            });
+        })
+        .mockImplementationOnce(() => {
+            return Promise.resolve({
+                json: () => Promise.resolve({
+                    new_achievements: [0] // Mock response for submitting new journal
+                }),
+            });
+        });
+
+
+    it('Updating journal returns to Dashboard', async () => {
         navigateMock = jest.fn()
         jest.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(navigateMock);
 
         const mockEntry = {
             userId: 123,
             entry: {
-              title: 'Existing Title',
-              content: 'Existing Content',
-              emotion: 'Sad',
-              journalTags: 'tag1, tag2',
-              entryID: 1
+                title: 'Existing Title',
+                content: 'Existing Content',
+                emotion: 'Sad',
+                journalTags: 'tag1, tag2',
+                entryID: 1
             }
         };
-
-        global.fetch = jest.fn().mockResolvedValueOnce({});
 
         render(
             <MemoryRouter initialEntries={[{ pathname: '/journal-entry', state: { userId: 123, entry: { entryID: 1 } } }]}>
@@ -200,22 +221,135 @@ describe('Journal Entry to Dashboard', () => {
 
         await waitFor(() => {
             expect(global.fetch).toHaveBeenCalledTimes(1);
-            expect(global.fetch).toHaveBeenCalledWith(expect.any(String), {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                user_id: 123,
-                title: 'Updated Title',
-                content: 'Updated Content',
-                emotion: 'Joyful',
-                journalTags: '',
-                entry_id: 1 
-              })
+            expect(global.fetch).toHaveBeenCalledWith(`undefined/api/entry/update-journal`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user_id: 123,
+                    title: 'Updated Title',
+                    content: 'Updated Content',
+                    emotion: 'Joyful',
+                    journalTags: '',
+                    entry_id: 1
+                })
             });
         })
-        expect(global.alert).toHaveBeenCalledWith('Journal entry updated successfully!');
+        await waitFor(() =>
+            expect(window.alert).toHaveBeenCalledWith('Journal entry updated successfully!')
+        );
         expect(navigateMock).toHaveBeenCalledWith('/dashboard', { state: { userId: 123 } });
+
     })
+
+
+    it('Submitting new journal entry will not cause achievement to pop up', async () => {
+        const userId = 123;
+        navigateMock = jest.fn()
+        jest.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(navigateMock);
+
+        render(
+            <MemoryRouter initialEntries={[{ pathname: '/journal-entry', state: { userId: 123, entry: { entryID: null } } }]}>
+                <JournalEntry />
+            </MemoryRouter>
+        );
+
+        const titleInput = screen.getByPlaceholderText('Enter title');
+        fireEvent.change(titleInput, { target: { value: 'Updated Title' } });
+        expect(titleInput.value).toBe('Updated Title');
+
+        const contentInput = screen.getByPlaceholderText("What's on your mind today?");
+        fireEvent.change(contentInput, { target: { value: 'Updated Content' } });
+        expect(contentInput.value).toBe('Updated Content');
+
+        const emotionButton = screen.getByText('Choose emotions');
+        userEvent.click(emotionButton);
+        const emotionOption = screen.getByText('Happy');
+        userEvent.click(emotionOption);
+        const emotion = screen.getByText('Joyful')
+        userEvent.click(emotion)
+        expect(screen.getByText('Joyful')).toBeInTheDocument();
+
+        expect(screen.getByText('Create')).toBeInTheDocument();
+
+        userEvent.click(screen.getByText('Create'));
+
+        await waitFor(() => {
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+            expect(global.fetch).toHaveBeenCalledWith(`undefined/api/entry/submit-new-journal`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user_id: 123,
+                    title: 'Updated Title',
+                    content: 'Updated Content',
+                    emotion: 'Joyful',
+                    journalTags: '',
+                    entry_id: null
+                })
+            });
+        });
+
+        expect(global.alert).toHaveBeenCalledWith('Journal entry added successfully!');
+        expect(navigateMock).toHaveBeenCalledWith('/dashboard', { state: { userId: userId } });
+    });
+
+
+    it('Submitting new journal entry will cause achievement to pop up', async () => {
+        const userId = 123;
+        navigateMock = jest.fn()
+        jest.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(navigateMock);
+
+        render(
+            <MemoryRouter initialEntries={[{ pathname: '/journal-entry', state: { userId: 123, entry: { entryID: null } } }]}>
+                <JournalEntry />
+            </MemoryRouter>
+        );
+
+        const titleInput = screen.getByPlaceholderText('Enter title');
+        fireEvent.change(titleInput, { target: { value: 'Updated Title' } });
+        expect(titleInput.value).toBe('Updated Title');
+
+        const contentInput = screen.getByPlaceholderText("What's on your mind today?");
+        fireEvent.change(contentInput, { target: { value: 'Updated Content' } });
+        expect(contentInput.value).toBe('Updated Content');
+
+        const emotionButton = screen.getByText('Choose emotions');
+        userEvent.click(emotionButton);
+        const emotionOption = screen.getByText('Happy');
+        userEvent.click(emotionOption);
+        const emotion = screen.getByText('Joyful')
+        userEvent.click(emotion)
+        expect(screen.getByText('Joyful')).toBeInTheDocument();
+
+        expect(screen.getByText('Create')).toBeInTheDocument();
+
+        userEvent.click(screen.getByText('Create'));
+
+        await waitFor(() => {
+            expect(global.fetch).toHaveBeenCalledTimes(3);
+            expect(global.fetch).toHaveBeenCalledWith(`undefined/api/entry/submit-new-journal`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user_id: 123,
+                    title: 'Updated Title',
+                    content: 'Updated Content',
+                    emotion: 'Joyful',
+                    journalTags: '',
+                    entry_id: null
+                })
+            });
+        });
+
+        expect(screen.getByText('Achievement Unlocked')).toBeInTheDocument();
+        expect(screen.getByText('See your achievements')).toBeInTheDocument();
+        userEvent.click(screen.getByText('See your achievements'));
+        expect(navigateMock).toHaveBeenCalledWith('/achievements', { state: { userId: userId } });
+    });
 })

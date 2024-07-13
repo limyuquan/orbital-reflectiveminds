@@ -199,7 +199,6 @@ function JournalEntry() {
                 resetFields();
                 alert('Journal entry updated successfully!');
                 navigate('/dashboard', { state: { userId: userId } });
-                
             }).catch((error) => {
                 console.error('Error:', error);
             });
