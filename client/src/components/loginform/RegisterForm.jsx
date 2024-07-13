@@ -46,7 +46,7 @@ const RegisterForm = (props) => {
           navigate("/login");
         }
       })
-      .catch(error => {2
+      .catch(error => {
         console.error('Error:', error);
         setShowLoader(false);
         alert("Error encountered");
