@@ -158,7 +158,6 @@ describe('Journal Entry to Dashboard', () => {
             }
             else {
                 // Debug output for unmatched URLs
-                console.log('Different URL:', url);
                 return Promise.reject(new Error('Unknown URL'));
             }
         })

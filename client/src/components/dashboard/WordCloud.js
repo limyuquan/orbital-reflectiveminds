@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactWordcloud from 'react-wordcloud';
 
-
 import './dashboard.css';
 
 function WordCloud({userId}) {
@@ -52,8 +51,8 @@ function WordCloud({userId}) {
     }
   return (
     <div className="wordcloud-container">
-        {words.length > 0 && <div className='wordcloud-title'>How you felt</div>}
         {words.length === 0 && <div className='wordcloud-title'>Create your first entry now!</div>}
+        {words.length > 0 && (<div className='wordcloud-title'>How you felt</div>)}
         <ReactWordcloud words={words} options={options} size={[700, 400]} />
     </div>
     
