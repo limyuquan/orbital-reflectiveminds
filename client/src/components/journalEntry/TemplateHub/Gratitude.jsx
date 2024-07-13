@@ -22,7 +22,7 @@ Because...`
   return (
     <form>
       <textarea
-        placeholder="What's on your mind today?"
+        placeholder="Grateful for?"
         id="text"
         name="text"
         rows="10"

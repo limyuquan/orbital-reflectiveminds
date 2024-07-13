@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 // import axios from "axios";
 import Loader from "../shared/loader";
 
-
 const LoginForm = (props) => {
   const navigate = useNavigate();
 
@@ -28,16 +27,16 @@ const LoginForm = (props) => {
     const body = {
       username: userState.username,
       password: userState.password,
-    }
+    };
     fetch(`${apiUrl}/api/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(body)
-      })
-      .then(response => response.json())
-      .then(data => {
+      body: JSON.stringify(body),
+    })
+      .then((response) => response.json())
+      .then((data) => {
         if (data.status != "Success") {
           alert("Account does not exist! Incorrect username or password!");
         } else {
@@ -50,32 +49,6 @@ const LoginForm = (props) => {
         alert("Error encountered");
         setShowLoader(false);
       });
-    // axios
-    //   .post(
-    //     `${apiUrl}/api/auth/login`,
-    //     {
-    //       username: userState.username,
-    //       password: userState.password,
-    //     },
-    //     {
-    //       headers: {
-    //         "content-type": "application/x-www-form-urlencoded",
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     if (response.data["status"] != "Success") {
-    //       alert("Account does not exist! Incorrect username or password!");
-    //     } else {
-    //       navigate("/dashboard", { state: { userId: response.data.userId } });
-    //     }
-    //     setShowLoader(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     alert("Error encountered");
-    //     setShowLoader(false);
-    //   });
   };
 
   return (
@@ -104,19 +77,25 @@ const LoginForm = (props) => {
             name="password"
           />
         </div>
-         
+
         <div className="login-button-wrapper">
-        <button type="submit" className="login-button">
-          Login
-        </button>
+          <button type="submit" className="login-button">
+            Login
+          </button>
         </div>
 
         <div className="register-link">
-        <p>
-          Don't have an account?
-          <Link className="click-here" to="/register"> Click here </Link>
-        </p>
-      </div>
+          <p>
+            Don't have an account?
+            <Link
+              className="click-here"
+              to="/register"
+              onClick={() => navigate("/register")}
+            >
+              Click here
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );
