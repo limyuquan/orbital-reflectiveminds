@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 from flask import jsonify, Blueprint, Flask, request
 from datetime import datetime
 from sqlalchemy import text
@@ -31,6 +33,17 @@ def submit_new_journal():
             stmt = text("UPDATE users SET last_entry = :date WHERE userId = :user_id")
             connection.execute(stmt, {"date":date, "user_id":user_id})
             connection.commit()
+            stmt = text("SELECT achievements FROM users where userId = :userId")
+            current_achievements_str = connection.execute(stmt, {"userId":user_id}).fetchone()[0]
+            if current_achievements_str is None:
+                current_achievements_str = ""
+            stmt = text("SELECT entryId as entryID, title, startDate as date, body as content, emotions as emotion, journal_tags as tags, bookmark as bookmark FROM userEntry WHERE userId = :user_id ORDER BY entryId DESC")
+            entries = connection.execute(stmt, {"user_id":user_id}).fetchall()
+            all_journals = [{"id": index, "entryID": entryID,  "title": title, "date": date.strftime("%Y-%m-%d"), "content": content,"emotion": emotion,"tags": tags, "bookmark": bookmark} for index, (entryID, title, date, content, emotion, tags, bookmark) in enumerate(entries)]
+            achievements, new_achievements = new_check_achievements(all_journals, current_achievements_str)
+            stmt = text("UPDATE users SET achievements = :achievements WHERE userId = :user_id")
+            connection.execute(stmt, {"achievements":achievements, "user_id":user_id})
+            connection.commit()
             
     except Exception as e:
         return {
@@ -39,7 +52,8 @@ def submit_new_journal():
         }
         
     return {
-        "status": "success"
+        "status": "success",
+        "new_achievements": [0]
     }
     
 @entry_routes.route('/update-journal', methods=['POST'])
@@ -95,4 +109,56 @@ def promptOpenAI():
         return {"status": "An error occurred with the OpenAI API."}
     except Exception as e:
         return {"status": str(e)}
+
+def new_check_achievements(journals, achievements):
+    cur_streaks = check_current_streaks(journals)
+    achievements_lst = achievements.split(",")
+    if cur_streaks >= 1 and "0" not in achievements_lst:
+        achievements = add_achievement(achievements, "0")
+    if cur_streaks >= 5 and "1" not in achievements_lst:
+        achievements = add_achievement(achievements, "1")
+    if cur_streaks >= 10 and "2" not in achievements_lst:
+        achievements = add_achievement(achievements, "2")
+    if cur_streaks >= 25 and "3" not in achievements_lst:
+        achievements = add_achievement(achievements, "3")
+    if cur_streaks >= 50 and "4" not in achievements_lst:
+        achievements = add_achievement(achievements, "4")
+    if cur_streaks >= 100 and "5" not in achievements_lst:
+        achievements = add_achievement(achievements, "5")
+    total_words = sum([len(journal['content'].split()) for journal in journals])
+    if total_words >= 500 and "6" not in achievements_lst:
+        achievements = add_achievement(achievements, "6")
+    if total_words >= 1000 and "7" not in achievements_lst:
+        achievements = add_achievement(achievements, "7")
+    if total_words >= 2000 and "8" not in achievements_lst:
+        achievements = add_achievement(achievements)
+    new_achievements = [achievement for achievement in achievements.split(",") if achievement not in achievements_lst]
+    return achievements, new_achievements
+
+def add_achievement(str_achievement, new_achievement):
+    if str_achievement == "":
+        return new_achievement
+    else:
+        return str_achievement + "," + new_achievement
     
+def check_current_streaks(journals):
+    dates = [datetime.strptime(journal['date'], "%Y-%m-%d") for journal in journals]
+    dates.sort(reverse=True)
+
+    streak = 0
+    currentDate = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+    for i, entryDate in enumerate(dates):
+        entryDate = entryDate.replace(hour=0, minute=0, second=0, microsecond=0)
+        diffDays = (currentDate - entryDate).days
+
+        if diffDays == 1:
+            streak += 1
+            currentDate = entryDate
+        elif diffDays > 1:
+            break
+        elif diffDays == 0 and i == 0:
+            streak += 1
+            currentDate = entryDate
+
+    return streak

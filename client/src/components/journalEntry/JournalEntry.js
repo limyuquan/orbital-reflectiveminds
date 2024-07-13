@@ -14,6 +14,7 @@ import DailyReflection from './TemplateHub/DailyReflection';
 import Book from './TemplateHub/Book';
 import Travel from './TemplateHub/Travel';
 import Weekend from './TemplateHub/Weekend';
+import AchievementPopup from '../shared/AchievementPopup';
 
 import OpenAI from './OpenAI';
 
@@ -48,7 +49,62 @@ function JournalEntry() {
 
     const [emotionMenu, setEmotionMenu] = useState(false);
     const [showLoader, setShowLoader] = useState(false);
+    const [showAchievementPopup, setShowAchievementPopup] = useState(false);
     const [templateNumber, setTemplateNumber] = useState(0);
+    const [achievement, setAchievement] = useState({
+        title: '',
+        description: ''
+    });
+
+    const ACHIEVEMENT_LIST = [
+        {
+            index: 0,
+            title: "First Entry 🎉",
+            description: "Write your first journal entry",
+        },
+        {
+            index: 1,
+            title: "5-Day Streak 🌟",
+            description: "Write a journal entry for 5 consecutive days",
+        },
+        {
+            index: 2,
+            title: "10-Day Streak 🌟🌟",
+            description: "Write a journal entry for 10 consecutive days",
+        },
+        {
+            index: 3,
+            title: "25-Day Streak 🌟🌟🌟",
+            description: "Write a journal entry for 25 consecutive days",
+        },
+        {
+            index: 4,
+            title: "50-Day Streak 🌟🌟🌟🌟",
+            description: "Write a journal entry for 50 consecutive days",
+        },
+        {
+            index: 5,
+            title: "100-Day Streak 🌟🌟🌟🌟🌟",
+            description: "Write a journal entry for 100 consecutive days",
+        },
+        {
+            index: 6,
+            title: "500 Words 📝",
+            description: "Write a total of 500 words",
+        },
+        {
+            index: 7,
+            title: "1000 Words 📝📝",
+            description: "Write a total of 1000 words",
+            status: "Incomplete"
+        },
+        {
+            index: 8,
+            title: "2000 Words 📝📝📝",
+            description: "Write a total of 2000 words",
+        },
+    ];
+    
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -136,15 +192,16 @@ function JournalEntry() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(journalEntry)
-            }).then(() => {
+            })
+            .then(response => response.json())
+            .then(data => {
+                setShowLoader(false);
                 resetFields();
                 alert('Journal entry updated successfully!');
                 navigate('/dashboard', { state: { userId: userId } });
-                setShowLoader(false);
-            }
-            ).catch((error) => {
+                
+            }).catch((error) => {
                 console.error('Error:', error);
-
             });
             return;
         }
@@ -155,11 +212,21 @@ function JournalEntry() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(journalEntry)
-        }).then(() => {
+        }).then(response => response.json())
+          .then(data => {
             resetFields();
-            alert('Journal entry created successfully!');
-            navigate('/dashboard', { state: { userId: userId } });
             setShowLoader(false);
+            console.log(data.new_achievements)
+            if (data.new_achievements.length > 0) {
+                const achievementIndex = data.new_achievements.pop();
+                console.log(achievementIndex)
+                console.log(ACHIEVEMENT_LIST[achievementIndex])
+                setAchievement(ACHIEVEMENT_LIST[achievementIndex]);
+                setShowAchievementPopup(true);
+            } else {
+                alert('Journal entry added successfully!');
+                navigate('/dashboard', { state: { userId: userId } });
+            }
         }
         ).catch((error) => {
             console.error('Error:', error);
@@ -167,10 +234,16 @@ function JournalEntry() {
         });
     }
 
+    const navigateAchievements = () => {
+        setShowAchievementPopup(false);
+        navigate('/achievements', { state: { userId: userId } });
+    }
+
     return (
         <div className="journal-entry">
             <div>
                 {showLoader && <Loader />}
+                <AchievementPopup isOpen={showAchievementPopup} achievement={achievement} onClose={navigateAchievements}/>
             </div>
             <div data-testid="dashboard-button" className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left journal-exit"></i>Dashboard</div>
             <div className="new-title">{oldTitle === "" ? "NEW JOURNAL ENTRY" : "EDIT JOURNAL ENTRY"}</div>

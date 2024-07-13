@@ -9,40 +9,45 @@ import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import { useNavigate } from 'react-router-dom'; // Import the useHistory hook
 import './dashboard.css';
 
-function getRandomNumber(min, max) {
-  return Math.round(Math.random() * (max - min) + min);
-}
 
+function fetchDatesInMonth(user_id, date, { signal }, retries = 3) {
+  return new Promise((resolve, reject) => {
+    const body = {
+      user_id: user_id,
+      month: date.month() + 1,
+      year: date.year(),
+    };
+    const apiUrl = process.env.REACT_APP_API_URL;
 
-function fetchDatesInMonth(user_id, date, { signal }) {
-    return new Promise((resolve, reject) => {
-      const body = {
-        user_id: user_id,
-        month: date.month() + 1,
-        year: date.year(),
-      };
-      //console.log(user_id)
-      const apiUrl = process.env.REACT_APP_API_URL;
-  
-      fetch(`${apiUrl}/api/dashboard/get-active-days`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log("all journals ", data.active_dates);
-        const daysToHighlight = data.active_days;
-        resolve({ daysToHighlight });
-      })
-      .catch(error => {
-        console.error('Error:', error);
+    fetch(`${apiUrl}/api/dashboard/get-active-days`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body),
+      signal: signal
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("all journals ", data.active_dates);
+      const daysToHighlight = data.active_days;
+      resolve({ daysToHighlight });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      if (retries > 0) {
+        console.log(`Retrying... attempts left: ${retries - 1}`);
+        setTimeout(() => {
+          fetchDatesInMonth(user_id, date, { signal }, retries - 1)
+            .then(resolve)
+            .catch(reject);
+        }, 2000); // Wait for 2 second before retrying
+      } else {
         reject(error);
-      });
+      }
     });
-  }
+  });
+}
 
 
 const initialValue = dayjs();
@@ -68,6 +73,7 @@ export default function DateCalendarServerRequest({userId}) {
   const requestAbortController = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [highlightedDays, setHighlightedDays] = useState([1, 2, 15]);
+  const [fetching, setFetching] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (value) => {
@@ -76,14 +82,21 @@ export default function DateCalendarServerRequest({userId}) {
 }
   const fetchHighlightedDays = (date) => {
     const controller = new AbortController();
+    if (fetching) {
+      return;
+    }
+    setFetching(true);
     fetchDatesInMonth(userId, date, {
       signal: controller.signal,
     })
       .then(({ daysToHighlight }) => {
         setHighlightedDays(daysToHighlight);
         setIsLoading(false);
+        setFetching(false);
       })
       .catch((error) => {
+        setFetching(false);
+        setIsLoading(false);
         // ignore the error if it's caused by `controller.abort`
         if (error.name !== 'AbortError') {
           throw error;

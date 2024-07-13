@@ -6,6 +6,7 @@ import './dashboard.css';
 
 function WordCloud({userId}) {
     const [words, setWords] = useState([]);
+    const [fetching, setFetching] = useState(false);
 
     useEffect(() => {
         getEmotionStats();
@@ -23,7 +24,11 @@ function WordCloud({userId}) {
     };
 
     function getEmotionStats() {
-    // Replace this with a fetch call to the server
+    
+    if (fetching) {
+        return;
+    }
+    setFetching(true);
     const body = {
         user_id: userId,
     }
@@ -38,9 +43,11 @@ function WordCloud({userId}) {
         .then(response => response.json())
         .then(data => {
         setWords(data);
+        setFetching(false);
         })
         .catch(error => {
         console.error('Error:', error);
+        setFetching(false);
         });
     }
   return (

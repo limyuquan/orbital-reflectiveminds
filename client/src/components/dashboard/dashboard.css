@@ -6,6 +6,48 @@
   font-family: "Roboto", sans-serif;
 }
 
+.dashboard-header {
+  width: 100%;
+  margin: 20px auto 0 auto;
+}
+
+.dashboard-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Aligns items vertically in the center */
+}
+
+.dashboard-header-right{
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.dashboard-logout{
+  cursor: pointer;
+}
+
+.dashboard-logout:hover{
+  transform: scale(1.02);
+}
+
+@keyframes glowingAchievements {
+  0% { color: #afc40d; }
+  33% { color: #ff5e00; } /* Change to a different color at 50% */
+  66% { color: #ffa200; }
+  100% { color: #afc40d; }
+}
+
+.dashboard-achievment-icon{
+  animation: glowingAchievements 2.5s infinite;
+  font-size: 34px;
+}
+
+.dashboard-achievment-icon:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
 .app-title {
   color: black;
   font-weight: 100;
@@ -210,6 +252,9 @@
 }
 
 .tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .tag {
