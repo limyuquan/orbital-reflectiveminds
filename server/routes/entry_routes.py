@@ -53,7 +53,7 @@ def submit_new_journal():
         
     return {
         "status": "success",
-        "new_achievements": [0]
+        "new_achievements": new_achievements
     }
     
 @entry_routes.route('/update-journal', methods=['POST'])
