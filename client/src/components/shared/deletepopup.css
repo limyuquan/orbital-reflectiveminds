@@ -1,0 +1,14 @@
+.popup-delete-1 {
+    color: black;
+    font-size: medium;
+    text-align: center;
+}
+.popup-delete-2 {
+    color: black;
+    font-size: medium;
+}
+.danger-icon {
+    flex: content;
+    align-items: center;
+    justify-content: center;
+}

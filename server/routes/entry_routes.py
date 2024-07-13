@@ -162,3 +162,32 @@ def check_current_streaks(journals):
             currentDate = entryDate
 
     return streak
+
+
+@entry_routes.route('/delete-journal-entry', methods=['POST'])
+def delete_journal_entry():
+    data = request.get_json()
+    entry_id = data.get('entryID')
+    user_id = data.get('user_id')
+
+    if not entry_id or not user_id:
+        return jsonify({"status": "error", "message": "entryID and user_id are required"}), 400
+    
+    try:
+        with db.engine.connect() as connection:
+            # Check if the entry exists and belongs to the user
+            stmt = text("SELECT COUNT(*) FROM userEntry WHERE entryId = :entry_id AND userId = :user_id")
+            result = connection.execute(stmt, {"entry_id": entry_id, "user_id": user_id}).fetchone()[0]
+
+            if result == 0:
+                return jsonify({"status": "error", "message": "Entry not found or does not belong to the user"}), 404
+
+            # Delete the entry
+            stmt = text("DELETE FROM userEntry WHERE entryId = :entry_id AND userId = :user_id")
+            connection.execute(stmt, {"entry_id": entry_id, "user_id": user_id})
+            connection.commit()
+
+            return jsonify({"status": "success", "message": "Entry deleted successfully"}), 200
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
