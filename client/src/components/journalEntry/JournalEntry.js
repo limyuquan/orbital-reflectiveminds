@@ -128,7 +128,7 @@ function JournalEntry() {
 
         const apiUrl = process.env.REACT_APP_API_URL;
         setShowLoader(true);
-        
+
         if (oldJournalId) {
             fetch(`${apiUrl}/api/entry/update-journal`, {
                 method: 'POST',
@@ -172,18 +172,18 @@ function JournalEntry() {
             <div>
                 {showLoader && <Loader />}
             </div>
-            <div className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left journal-exit"></i>Dashboard</div>
+            <div data-testid="dashboard-button" className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left journal-exit"></i>Dashboard</div>
             <div className="new-title">{oldTitle === "" ? "NEW JOURNAL ENTRY" : "EDIT JOURNAL ENTRY"}</div>
             <div className='new-prompt'>
-                {isPrompt && (<> <div className='prompt-set-title'>Today's Journaling Prompt <div className='set-prompt-title-button' onClick={() => setTitle(openAIPrompt)}>Set as Title</div></div>  <br/> <br  />{openAIPrompt}</>)}
-                
+                {isPrompt && (<> <div className='prompt-set-title'>Today's Journaling Prompt <div className='set-prompt-title-button' onClick={() => setTitle(openAIPrompt)}>Set as Title</div></div>  <br /> <br />{openAIPrompt}</>)}
+
             </div>
 
             <div id="wrapper">
                 <form id="paper" method="get" action="">
                     <div className="new-journal-header">
                         <div id="margin">Title:
-                            <input id="title" type="text" name="title" value={title} onChange={handleTitleChange} />
+                            <input id="title" type="text" name="title" value={title} onChange={handleTitleChange} placeholder="Enter title"/>
                         </div>
 
                         <div id="margin">Emotion:
@@ -210,7 +210,7 @@ function JournalEntry() {
                     <div className='journal-tags'>
 
                         {tags.map((tag, index) => (
-                            <div key={index} id='tag'>
+                            <div key={index} id='tag' data-testid='test-tags'>
                                 {tag}
                                 <button onClick={(event) => handleDelete(event, index)} className='delete-button'>X</button>
                             </div>
@@ -240,7 +240,7 @@ function JournalEntry() {
                             templateNumber == 0
                                 ? <TemplateDefault content={content} handleContentChange={handleContentChange} />
                                 : templateNumber == 1
-                                    ? <GratitudeForm content={content} handleContentChange={handleContentChange} />
+                                    ? <GratitudeForm  content={content} handleContentChange={handleContentChange} />
                                     : templateNumber == 2
                                         ? <GoalSetting content={content} handleContentChange={handleContentChange} />
                                         : templateNumber == 3
