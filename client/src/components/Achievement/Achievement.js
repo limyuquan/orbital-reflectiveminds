@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './achievement.css'; 
+import './achievement.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AchievementItem from './AchievementItem';
 import Loader from '../shared/loader';
@@ -43,7 +43,7 @@ function Achievements() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(body)
-            })
+        })
             .then(response => response.json())
             .then(data => {
                 setAchievements(data.achievements);
@@ -51,10 +51,10 @@ function Achievements() {
                 setLoading(false);
             })
             .catch(error => {
-            console.error('Error:', error);
-            setLoading(false);
+                console.error('Error:', error);
+                setLoading(false);
             });
-        }
+    }
 
     let achievementsList = [
         {
@@ -104,13 +104,13 @@ function Achievements() {
             description: "Write a total of 2000 words",
         },
     ];
-        
+
 
     return (
         <div className="achievements">
             {loading && <Loader />}
             <div className="achievements-header">
-                <h1 className="achievements-title"><i className="fas fa-angle-left achievements-back" onClick={() => navigateBack()}></i>Achievements <i class="fa fa-trophy achievements-achievement-icon" ></i></h1>
+                <h1 className="achievements-title"><i data-testid="navigate-back-button" className="fas fa-angle-left achievements-back" onClick={() => navigateBack()}></i>Achievements <i class="fa fa-trophy achievements-achievement-icon" ></i></h1>
             </div>
             <div className="statistics-content">
                 <div className="statistics-content-header">
@@ -148,7 +148,7 @@ function Achievements() {
                         return <AchievementItem key={index} title={achievement.title} description={achievement.description} status={achievement.index in achievements} />;
                     })}
                 </div>
-                
+
             </div>
         </div>
     );
