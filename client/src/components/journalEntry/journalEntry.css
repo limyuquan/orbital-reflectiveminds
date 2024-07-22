@@ -265,6 +265,16 @@
   color: rgb(103, 99, 99);
 }
 
+.delete-entry-button {
+  color: black;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: transform 0.1s ease-in-out;
+  background-color: inherit;
+}
+
 #button {
   outline: none;
   border: none;
@@ -280,7 +290,6 @@
   text-shadow: 0px -1px 0px #000000;
 
   border-radius: 8px;
-
 
   box-shadow: 0px 2px 8px #000;
   background-color: #80d2ff;

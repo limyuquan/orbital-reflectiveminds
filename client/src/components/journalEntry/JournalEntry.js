@@ -3,6 +3,8 @@ import './journalEntry.css';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import the useHistory hook
 import EmotionMenu from './EmotionComponent/EmotionMenu'; //Import EmotionMenu
 import Template from './TemplateHub/Templates'; //Import TemplateMenu
+import { MdDelete } from "react-icons/md";
+
 
 import Loader from '../shared/loader';
 
@@ -15,6 +17,7 @@ import Book from './TemplateHub/Book';
 import Travel from './TemplateHub/Travel';
 import Weekend from './TemplateHub/Weekend';
 import AchievementPopup from '../shared/AchievementPopup';
+import DeletePopup from '../shared/DeletePopup';
 
 import OpenAI from './OpenAI';
 
@@ -46,6 +49,8 @@ function JournalEntry() {
     const [tagName, setTagName] = useState('');
     const [tags, setTags] = useState(oldJournalTags || []);
     const [isTagInput, setIsTagInput] = useState(true);
+
+    const [isDelete, setIsDelete] = useState(false);
 
     const [emotionMenu, setEmotionMenu] = useState(false);
     const [showLoader, setShowLoader] = useState(false);
@@ -104,7 +109,7 @@ function JournalEntry() {
             description: "Write a total of 2000 words",
         },
     ];
-    
+
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -184,7 +189,7 @@ function JournalEntry() {
 
         const apiUrl = process.env.REACT_APP_API_URL;
         setShowLoader(true);
-        
+
         if (oldJournalId) {
             fetch(`${apiUrl}/api/entry/update-journal`, {
                 method: 'POST',
@@ -193,16 +198,15 @@ function JournalEntry() {
                 },
                 body: JSON.stringify(journalEntry)
             })
-            .then(response => response.json())
-            .then(data => {
-                setShowLoader(false);
-                resetFields();
-                alert('Journal entry updated successfully!');
-                navigate('/dashboard', { state: { userId: userId } });
-                
-            }).catch((error) => {
-                console.error('Error:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    setShowLoader(false);
+                    resetFields();
+                    alert('Journal entry updated successfully!');
+                    navigate('/dashboard', { state: { userId: userId } });
+                }).catch((error) => {
+                    console.error('Error:', error);
+                });
             return;
         }
 
@@ -213,25 +217,59 @@ function JournalEntry() {
             },
             body: JSON.stringify(journalEntry)
         }).then(response => response.json())
-          .then(data => {
-            resetFields();
-            setShowLoader(false);
-            console.log(data.new_achievements)
-            if (data.new_achievements.length > 0) {
-                const achievementIndex = data.new_achievements.pop();
-                console.log(achievementIndex)
-                console.log(ACHIEVEMENT_LIST[achievementIndex])
-                setAchievement(ACHIEVEMENT_LIST[achievementIndex]);
-                setShowAchievementPopup(true);
-            } else {
-                alert('Journal entry added successfully!');
-                navigate('/dashboard', { state: { userId: userId } });
+            .then(data => {
+                resetFields();
+                setShowLoader(false);
+                console.log(data.new_achievements)
+                if (data.new_achievements.length > 0) {
+                    const achievementIndex = data.new_achievements.pop();
+                    console.log(achievementIndex)
+                    console.log(ACHIEVEMENT_LIST[achievementIndex])
+                    setAchievement(ACHIEVEMENT_LIST[achievementIndex]);
+                    setShowAchievementPopup(true);
+                } else {
+                    alert('Journal entry added successfully!');
+                    navigate('/dashboard', { state: { userId: userId } });
+                }
             }
-        }
-        ).catch((error) => {
-            console.error('Error:', error);
+            ).catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 
-        });
+    const showDeletePopup = (e) => {
+        e.preventDefault();
+        setIsDelete(!isDelete);
+        console.log(oldJournalId)
+    }
+
+    const deleteEntry = (e, input) => {
+        e.preventDefault();
+        if (input == 'delete') {
+            const apiUrl = process.env.REACT_APP_API_URL;
+            fetch(`${apiUrl}/api/entry/delete-journal-entry`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ entryID: oldJournalId, user_id: userId })
+            }).then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    if (data.status === 'success') {
+                        setIsDelete(false);
+                        navigate('/dashboard', { state: { userId: userId } });
+                    } else {
+                        alert(`Error: ${data.message}`);
+                    }
+                }).catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the entry.');
+                });
+        } else {
+            setIsDelete(false);
+            alert('Texts do not match!')
+        }
     }
 
     const navigateAchievements = () => {
@@ -243,20 +281,20 @@ function JournalEntry() {
         <div className="journal-entry">
             <div>
                 {showLoader && <Loader />}
-                <AchievementPopup isOpen={showAchievementPopup} achievement={achievement} onClose={navigateAchievements}/>
+                <AchievementPopup isOpen={showAchievementPopup} achievement={achievement} onClose={navigateAchievements} />
             </div>
-            <div className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left journal-exit"></i>Dashboard</div>
+            <div data-testid="dashboard-button" className="exit" onClick={handleReturnDashboard}><i className="fas fa-angle-left journal-exit"></i>Dashboard</div>
             <div className="new-title">{oldTitle === "" ? "NEW JOURNAL ENTRY" : "EDIT JOURNAL ENTRY"}</div>
             <div className='new-prompt'>
-                {isPrompt && (<> <div className='prompt-set-title'>Today's Journaling Prompt <div className='set-prompt-title-button' onClick={() => setTitle(openAIPrompt)}>Set as Title</div></div>  <br/> <br  />{openAIPrompt}</>)}
-                
+                {isPrompt && (<> <div className='prompt-set-title'>Today's Journaling Prompt <div className='set-prompt-title-button' onClick={() => setTitle(openAIPrompt)}>Set as Title</div></div>  <br /> <br />{openAIPrompt}</>)}
+
             </div>
 
             <div id="wrapper">
                 <form id="paper" method="get" action="">
                     <div className="new-journal-header">
                         <div id="margin">Title:
-                            <input id="title" type="text" name="title" value={title} onChange={handleTitleChange} />
+                            <input id="title" type="text" name="title" value={title} onChange={handleTitleChange} placeholder="Enter title" />
                         </div>
 
                         <div id="margin">Emotion:
@@ -283,7 +321,7 @@ function JournalEntry() {
                     <div className='journal-tags'>
 
                         {tags.map((tag, index) => (
-                            <div key={index} id='tag'>
+                            <div key={index} id='tag' data-testid='test-tags'>
                                 {tag}
                                 <button onClick={(event) => handleDelete(event, index)} className='delete-button'>X</button>
                             </div>
@@ -332,7 +370,12 @@ function JournalEntry() {
 
                     <Template chooseTemplate={chooseTemplate} />
 
-                    <input id="button" type="submit" value={oldTitle ? "Edit" : "Create"} onClick={handleSubmit} />
+                    <div>
+                        {oldTitle ? <button className="delete-entry-button" onClick={event => showDeletePopup(event)}><MdDelete size={32} /></button> : null}
+                        <DeletePopup isOpen={isDelete} setIsDelete={setIsDelete} deleteEntry={deleteEntry} />
+                        <input id="button" type="submit" value={oldTitle ? "Edit" : "Create"} onClick={handleSubmit} />
+                    </div>
+
                 </form>
 
             </div>

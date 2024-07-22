@@ -1,3 +1,5 @@
+import React from "react";
+
 function AchievementItem(props) {
 
     const title = props.title;

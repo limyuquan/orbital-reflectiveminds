@@ -1,4 +1,6 @@
 import './achievementpopup.css';
+import React from 'react';
+
 
 function AchievementPopup({ isOpen, achievement, onClose }) {
     if (!isOpen) return null;

@@ -52,26 +52,7 @@ const RegisterForm = (props) => {
         alert("Error encountered");
         
       });
-      // axios
-      //   .post(`${apiUrl}/api/auth/register`, userState, {
-      //     headers: {
-      //       "content-type": "application/x-www-form-urlencoded",
-      //     },
-      //   })
-      //   .then((response) => {
-      //     setShowLoader(false);
-      //     console.log(response);
-      //     if (response.data["status"] != "Success") {
-      //       alert("This account exists! Username or email is already in use!");
-      //     } else {
-      //       navigate("/login");
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     alert("Error encountered");
-      //     setShowLoader(false);
-      //   });
+
     }
   };
 
@@ -120,7 +101,7 @@ const RegisterForm = (props) => {
         </div>
 
         <div className="back-button-wrapper"> 
-        <button type="submit" className="back" onClick={() => navigate(-1)}>
+        <button type="button" className="back" onClick={() => navigate('/login')}>
           Back
         </button>
         </div>
