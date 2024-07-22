@@ -245,6 +245,7 @@ function JournalEntry() {
 
     const deleteEntry = (e, input) => {
         e.preventDefault();
+        setShowLoader(true);
         if (input == 'delete') {
             const apiUrl = process.env.REACT_APP_API_URL;
             fetch(`${apiUrl}/api/entry/delete-journal-entry`, {
@@ -256,6 +257,7 @@ function JournalEntry() {
             }).then(response => response.json())
                 .then(data => {
                     console.log(data)
+                    setShowLoader(false);
                     if (data.status === 'success') {
                         setIsDelete(false);
                         navigate('/dashboard', { state: { userId: userId } });
@@ -267,6 +269,7 @@ function JournalEntry() {
                     alert('An error occurred while deleting the entry.');
                 });
         } else {
+            setShowLoader(false);
             setIsDelete(false);
             alert('Texts do not match!')
         }
