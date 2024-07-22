@@ -7,8 +7,69 @@
     color: black;
     font-size: medium;
 }
+
 .danger-icon {
+    color: red;
+    margin-right: 7px;
     flex: content;
     align-items: center;
     justify-content: center;
+}
+
+.delete-input {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+}
+
+.delete-input:focus {
+    outline: none;
+    border: 1px solid #333;
+}
+
+.delete-btn-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirm-btn{
+    background-color: rgb(229, 137, 137);
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.confirm-btn:hover{
+    background-color: rgb(192, 63, 63);
+    scale: 1.08;
+}
+
+.cancel-btn{
+    background-color: #f0f0f0;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.cancel-btn:hover{
+    background-color: #d9d9d9;
+    scale: 1.08;
+}
+
+.delete-entry-button{
+    color: #e06a6a;
+}
+
+.delete-entry-button:hover{
+    color: #d95353;
+    scale: 1.12;
 }

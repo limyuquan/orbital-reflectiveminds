@@ -31,11 +31,11 @@ function DeletePopup({ isOpen, setIsDelete, deleteEntry }) {
                     onChange={handleInputChange}
                     placeholder=''
                 />
-                <div>
-                    <button onClick={(event) => {
+                <div className="delete-btn-row">
+                    <button className="confirm-btn"onClick={(event) => {
                         deleteEntry(event, inputValue)
                     }}>Confirm</button>
-                    <button onClick={() => setIsDelete(false)}>Cancel</button>
+                    <button className="cancel-btn" onClick={() => setIsDelete(false)}>Cancel</button>
                 </div>
 
             </div>

@@ -264,8 +264,10 @@ function PreviousEntries({ userId, getStreakCount }) {
         </div>
 
         <div className="pagination-container">
+          {console.log('maxPages', maxPages)}
+          {console.log('curPage', curPage)}
           {curPage !== 1 && <div className="pagination-btn" onClick={() => setCurPage(curPage - 1)}><i className="fas fa-angle-left" /></div>}
-          {(curPage !== maxPages) && <div className="pagination-btn" onClick={() => setCurPage(curPage + 1)}><i className="fas fa-angle-right" /></div>}
+          {(curPage !== maxPages) && (maxPages !== 0) && <div className="pagination-btn" onClick={() => setCurPage(curPage + 1)}><i className="fas fa-angle-right" /></div>}
         </div>
       </div>
     </div>

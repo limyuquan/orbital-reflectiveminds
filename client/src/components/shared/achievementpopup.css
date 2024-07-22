@@ -31,6 +31,9 @@
   .popup-heading {
     color: #333;
     margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+
   }
   
   .popup-title {
